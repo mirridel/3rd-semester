@@ -19,9 +19,9 @@ public:
 
 	static void TransposeMatrix(Matrix &other);
 
-	void AdditionMatrix(Matrix &other);
+	int AdditionMatrix(Matrix &other);
 
-	void SubstractionMatrix(Matrix &other);
+	int SubstractionMatrix(Matrix &other);
 
 	~Matrix();
 };

@@ -44,6 +44,7 @@
 			}
 			std::cout << "\n";
 		}
+		std::cout << "\n";
 	}
 
 	void Matrix::TransposeMatrix(Matrix &other)
@@ -82,25 +83,41 @@
 		delete[] subMatrix;
 	}
 
-	void Matrix::AdditionMatrix(Matrix &other)
+	int Matrix::AdditionMatrix(Matrix &other)
 	{
-		for (int i = 0; i < size; i++)
+		if (this->size == other.size)
 		{
-			for (int j = 0; j < size; j++)
+			for (int i = 0; i < size; i++)
 			{
-				this->matrix[i][j] += other.matrix[i][j];
+				for (int j = 0; j < size; j++)
+				{
+					this->matrix[i][j] += other.matrix[i][j];
+				}
 			}
+		}
+		else
+		{
+			std::cout << "Matrixes of different sizes. Addition is not possible." << std::endl;
+			return 1;
 		}
 	}
 
-	void Matrix::SubstractionMatrix(Matrix &other)
+	int Matrix::SubstractionMatrix(Matrix &other)
 	{
-		for (int i = 0; i < size; i++)
+		if (this->size == other.size)
 		{
-			for (int j = 0; j < size; j++)
+			for (int i = 0; i < size; i++)
 			{
-				this->matrix[i][j] -= other.matrix[i][j];
+				for (int j = 0; j < size; j++)
+				{
+					this->matrix[i][j] -= other.matrix[i][j];
+				}
 			}
+		}
+		else
+		{
+			std::cout << "Matrixes of different sizes. Substraction is not possible." << std::endl;
+			return 1;
 		}
 	}
 
