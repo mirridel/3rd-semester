@@ -5,7 +5,7 @@
 
 void main()
 {
-	Matrix mtx1(4), mtx2(4), mtx3(4);
+	Matrix mtx1(4), mtx2(2), mtx3(4);
 
 	mtx1.PushMatrix();
 	mtx2.PushMatrix();
@@ -13,21 +13,19 @@ void main()
 
 	std::cout << "Original Matrix\n\n"; // Оригинальная матрица
 	mtx1.PrintMatrix();
-	std::cout <<"\nTranspose Matrix\n\n"; // Транспонирование
-	Matrix::TransposeMatrix(mtx1);
-	mtx1.PrintMatrix();
-	std::cout << "\nAddition Matrix\n\n"; // Сложение матриц
-	mtx1.PrintMatrix();
-	std::cout << "\n";
+	std::cout << "detA= " << mtx1() << "\n\n";
 	mtx2.PrintMatrix();
-	mtx1.AdditionMatrix(mtx2);
-	std::cout << "\n";
-	mtx1.PrintMatrix();
-	std::cout << "\nSubstraction Matrix\n\n"; // Вычитание матриц
-	mtx1.PrintMatrix();
-	std::cout << "\n";
+	std::cout << "detB= " << mtx2() << "\n\n";
 	mtx3.PrintMatrix();
-	std::cout << "\n";
-	mtx1.SubstractionMatrix(mtx3);
+	std::cout << "detC= " << mtx3() << "\n\n";
+
+	std::cout << "\nAddition Matrix\n\n"; // Сложение матриц
+	mtx1 = mtx1 + mtx2;
 	mtx1.PrintMatrix();
+
+	std::cout << "\nSubstraction Matrix\n\n"; // Вычитание матриц
+	mtx1 = mtx1 - mtx3;
+	mtx1.PrintMatrix();
+
+	std::cout << "A(1,1)= " << mtx1(1, 1) << std::endl;
 };

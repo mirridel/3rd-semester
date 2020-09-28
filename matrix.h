@@ -5,11 +5,13 @@ class Matrix
 {
 private:
 	int size; 
-	int** matrix;
+	double** matrix;
 
 public:
 
 	Matrix(int size);
+
+	Matrix(double** qq = NULL, int n = 0);
 
 	Matrix(const Matrix &other);
 
@@ -17,11 +19,23 @@ public:
 
 	void PrintMatrix();
 
-	double det(int N);
+	double determinant();
 
-	Matrix& operator()();
+	Matrix Minor(const int p, const  int q);
 
-	int& operator()(int i, int j);
+	double* operator[](int j) { return matrix[j]; }
+
+	double*& operator[](int j) const { return matrix[j]; }
+
+	Matrix GausStep(int p, int q);
+
+	Matrix ReverseMatrix();
+
+	Matrix Tr();
+
+	double operator()();
+
+	double& operator()(int i, int j);
 
 	Matrix& operator=(const Matrix& other);
 

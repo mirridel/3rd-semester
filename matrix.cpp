@@ -1,45 +1,49 @@
 #include <iostream>
 #include "matrix.h"
 
-using namespace std;
-
 	Matrix::Matrix(int size) // Вызов конструктора
 	{
-		std::cout << "COSTRUCT\t" << this << std::endl;
-
 		this->size = size;
 
-		matrix = new int* [size];
+		matrix = new double* [size];
 
 		for (int i = 0; i < size; i++)
 		{
-			matrix[i] = new int[size];
+			matrix[i] = new double[size];
 		}
 	}
 
-	Matrix::Matrix(const Matrix &other) // Вызов конструктора копирования
+	Matrix::Matrix(double** qq, int n)
 	{
-		std::cout << "CPY_COSTRUCT\t" << this << std::endl;
+		size = n;
 
+		matrix = new double* [size];
+		for (int i = 0; i < size; i++)
+			matrix[i] = new double[size];
+
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				matrix[i][j] = qq[i][j];
+	}
+
+	Matrix::Matrix(const Matrix &other) // Конструктор копирования
+	{
 		this->size = other.size;
 
-		matrix = new int* [this->size];
-
+		matrix = new double* [this->size];
 		for (int i = 0; i < this->size; i++)
-		{
-			matrix[i] = new int[this->size];
-		}
+			matrix[i] = new double[this->size];
+
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				matrix[i][j] = other.matrix[i][j];
 	}
 
 	void Matrix::PushMatrix()
 	{
 		for (int i = 0; i < size; i++)
-		{
 			for (int j = 0; j < size; j++)
-			{
 				matrix[i][j] = rand() % 10;
-			}
-		}
 	}
 
 	void Matrix::PrintMatrix()
@@ -47,72 +51,111 @@ using namespace std;
 		for (int i = 0; i < size; i++)
 		{
 			for (int j = 0; j < size; j++)
-			{
 				std::cout << matrix[i][j] << " ";
-			}
+
 			std::cout << "\n";
 		}
 		std::cout << "\n";
 	}
 
-	double Matrix::det(int rows)
+	double Matrix::determinant()
 	{
-
-		int **arr = new int* [rows];
-
-		for (int i = 0; i < rows; i++)
+		Matrix A(*this);
+		double result = 1;
+		if (size == 1) return matrix[0][0];
+		if (size == 2) return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+		else
 		{
-			arr[i] = new int[rows];
+			int k = 0;
+			while (matrix[0][k] == 0) k++;
+			if (k == size) return 0;
+			else
+				return  pow(-1, k) * A.GausStep(0, k).matrix[0][k] * (A.GausStep(0, k).Minor(0, k)).determinant();
 		}
-
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				arr[i][j] = matrix[i][j];
-			}
-		}
-
-		double opr1, sum;
-		//-------------------------------------------------------------------------------------//
-		//Приводим матрицу к правилу Саррюса 
-
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < rows; j++) {
-				arr[i][j + rows] = arr[i][j];
-			}
-		}
-		//-----------------------------------------------------------------------------------------//   
-		// находим определитель основной матрицы а+а+а-а-а-а  
-		opr1 = 0;
-
-		// метод крамера шаг 1 сумма диоганали для плюса надо повторить n раз от k=n
-		for (int k = 0; k < rows; k++) {
-			sum = 1;
-			for (int i = 0; i < rows; i++) {
-				sum *= arr[i][i + k];
-			}
-			opr1 += sum;
-		}
-		// метод крамера шаг 2 сумма побочной диоганали для минуса повторить n-1 раз от k=n-1
-		for (int k = 0; k < rows; k++) {
-			sum = 1;
-			for (int i = 0; i < rows; i++) {
-				sum *= arr[i][rows - i - 1 + k];
-			}
-			opr1 -= sum;
-		}
-
-		return opr1;
-	};
-
-	Matrix& Matrix::operator()()
-	{
-
-		return *this;
 	}
 
-	int& Matrix::operator()(int i, int j)
+	Matrix Matrix::Minor(const int p, const  int q)
+	{
+		double** minor = new double* [size - 1];
+		for (int i = 0; i < size - 1; i++) minor[i] = new double[size - 1];
+
+		for (int i = 0; i < p; i++)
+		{
+			for (int j = 0; j < q; j++)
+				minor[i][j] = matrix[i][j];
+			for (int j = q; j < size - 1; j++)
+				minor[i][j] = matrix[i][j + 1];
+		}
+
+		for (int i = p; i < size - 1; i++)
+		{
+			for (int j = q; j < size - 1; j++)
+				minor[i][j] = matrix[i + 1][j + 1];
+			for (int j = 0; j < q; j++)
+				minor[i][j] = matrix[i + 1][j];
+		}
+
+		Matrix result(minor, size - 1);
+
+		for (int i = 0; i < size - 1; i++)
+			delete[] minor[i];
+		delete[] minor;
+
+		return result;
+	}
+
+	Matrix Matrix::GausStep(int p, int q)
+	{
+		double** result = new double* [size];
+		for (int i = 0; i < size; i++) result[i] = new double[size];
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				result[i][j] = matrix[i][j];
+
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+			{
+				if (i != p)
+					result[i][j] = matrix[i][j] - (matrix[p][j] * matrix[i][q] / matrix[p][q]);
+			}
+
+		Matrix A(result, size);
+
+		for (int i = 0; i < size; i++)
+			delete[] result[i];
+		delete[] result;
+
+		return A;
+	}
+
+	Matrix Matrix::ReverseMatrix()
+	{
+		Matrix qq(size);
+		if (determinant() != 0)
+		{
+			double Det = determinant();
+			for (int i = 0; i < size; i++)
+				for (int j = 0; j < size; j++)
+					qq.matrix[i][j] = Minor(i, j).determinant() * pow(-1, i + j) / Det;
+		}
+		return qq.Tr();
+	}
+
+	Matrix Matrix::Tr()
+	{
+		Matrix qq(size);
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				qq[i][j] = matrix[j][i];
+		return qq;
+	}
+
+	double Matrix::operator()()
+	{
+		return determinant();
+	}
+
+	double& Matrix::operator()(int i, int j)
 	{
 		return (matrix[i][j]);
 	}
@@ -131,35 +174,40 @@ using namespace std;
 
 	Matrix& Matrix::operator+(const Matrix &other)
 	{
-		for (int i = 0; i < size; i++)
+		if (this->size == other.size)
 		{
-			for (int j = 0; j < size; j++)
+			for (int i = 0; i < size; i++)
 			{
-				this->matrix[i][j] += other.matrix[i][j];
+				for (int j = 0; j < size; j++)
+				{
+					this->matrix[i][j] += other.matrix[i][j];
+				}
 			}
 		}
+		else std::cout << "Matrixes of different sizes. Addition is not possible." << std::endl;
 		return *this;
 	}
 
 	Matrix& Matrix::operator-(const Matrix &other)
 	{
-		for (int i = 0; i < size; i++)
+		if (this->size == other.size)
 		{
-			for (int j = 0; j < size; j++)
+			for (int i = 0; i < size; i++)
 			{
-				this->matrix[i][j] -= other.matrix[i][j];
+				for (int j = 0; j < size; j++)
+				{
+					this->matrix[i][j] -= other.matrix[i][j];
+				}
 			}
 		}
+		else std::cout << "Matrixes of different sizes. Substraction is not possible." << std::endl;
 		return *this;
 	}
 
 	Matrix::~Matrix()
 	{
-		//std::cout << "DECOSTRUCT\t" << this << std::endl;
-
 		for (int i = 0; i < size; i++)
-		{
 			delete[] matrix[i];
-		}
-		delete[] this->matrix;
+
+		delete[] matrix;
 	}
