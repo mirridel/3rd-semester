@@ -3,27 +3,35 @@
 
 class Matrix
 {
-private:
-	int size; 
-	int** matrix;
-
 public:
 
-	Matrix(int size);
+	Matrix(int size); // Конструктор
 
-	Matrix(const Matrix &other);
+	Matrix(const Matrix &other); // Конструктор копирования
 
-	void PushMatrix();
+	~Matrix(); // Деструктор
 
-	void PrintMatrix();
+	bool SetData(int, int, int); // Сеттер, который позволяет установить данные для одной ячейки
+	
+	int GetData(int, int); // Геттер, который позволяет получить данные из одной ячейки
 
-	static void TransposeMatrix(Matrix &other);
+	bool PushMatrix(); // Заполнение матрицы случайными числами
 
-	int AdditionMatrix(Matrix &other);
+	void toString(); // Выводим матрицу в типе char
 
-	int SubstractionMatrix(Matrix &other);
+	void toInt(); // Выводим матрицу в типе int
 
-	~Matrix();
+	static bool TransposeMatrix(Matrix &other); // Транспонирование матрицы
+
+	bool AdditionMatrix(Matrix &other); // Сложение матриц
+
+	bool SubstractionMatrix(Matrix &other); // Вычитание матриц
+
+private:
+
+	int size; // Размер матрицы
+	int** matrix; // Матрица
+	char** str; // Строковое представление матрицы
 };
 
 #endif

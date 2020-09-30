@@ -1,40 +1,82 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
+#include <cstring>
 #include "matrix.h"
 
-	Matrix::Matrix(int size) // Вызов конструктора
+	Matrix::Matrix(int size)
 	{
-		this->size = size;
-
-		matrix = new int* [size];
-
-		for (int i = 0; i < size; i++)
+		if (size > 0)
 		{
-			matrix[i] = new int[size];
+			this->size = size;
+
+			matrix = new int* [size];
+			for (int i = 0; i < size; i++)
+				matrix[i] = new int[size];
+
+			str = new char* [size];
+			for (int i = 0; i < size; i++)
+				str[i] = new char[64];
 		}
 	}
 
-	Matrix::Matrix(const Matrix &other) // Вызов конструктора копирования
+	Matrix::Matrix(const Matrix &other)
 	{
-		this->matrix = new int* [size];
-
-		for (int i = 0; i < size; i++)
+		if ( other.size > 0 )
 		{
-			matrix[i] = new int[size];
+			this->size = other.size;
+
+			this->matrix = new int* [size];
+			for (int i = 0; i < size; i++)
+				matrix[i] = new int[size];
+
+			str = new char* [size];
+			for (int i = 0; i < size; i++)
+				str[i] = new char[64];
+
+			for (int i = 0; i < size; i++)
+				for (int j = 0; j < size; j++)
+					matrix[i][j] = other.matrix[i][j];
 		}
 	}
 
-	void Matrix::PushMatrix()
+	bool Matrix::PushMatrix()
 	{
-		for (int i = 0; i < size; i++)
+		if (this->size != 0)
 		{
-			for (int j = 0; j < size; j++)
+			for (int i = 0; i < size; i++)
+				for (int j = 0; j < size; j++)
+					matrix[i][j] = rand() % 10;
+
+		}
+		else std::cout << "Matrix doesn't exist" << std::endl;
+
+		return true;
+	}
+
+	void Matrix::toString()
+	{
+		if (this->size != 0)
+		{
+			for (int i = 0; i < size; i++)
 			{
-				matrix[i][j] = rand() % 10;
+				str[i][0] = '\0';
+
+				for (int j = 0; j < size; j++)
+				{
+					char buff[16];
+					_itoa(matrix[i][j], buff, 10);
+					strcat(buff, " ");
+					strcat(str[i], buff);
+				}
 			}
+			for (int i = 0; i < size; i++)
+				std::cout << str[i] << std::endl;
+			std::cout << std::endl;
 		}
 	}
 
-	void Matrix::PrintMatrix()
+	void Matrix::toInt()
 	{
 		for (int i = 0; i < size; i++)
 		{
@@ -44,81 +86,78 @@
 			}
 			std::cout << "\n";
 		}
-		std::cout << "\n";
 	}
 
-	void Matrix::TransposeMatrix(Matrix &other)
+	bool Matrix::SetData(int x, int y, int data)
 	{
-		int size = other.size;
+		std::cout << "A["<< x <<","<< y <<"] = "<< data << std::endl;
 
-		int** subMatrix;
+		if (( x > 0 && x < size) && ( y > 0 && y < size ))
+			this->matrix[x][y] = data;
 
-		subMatrix = new int* [size];
+		return true;
+	}
 
-		for (int i = 0; i < size; i++)
+	int Matrix::GetData(int x, int y)
+	{
+		int data = 0;
+		if ((x > 0 && x < size) && (y > 0 && y < size))
+			data = this->matrix[x][y];
+
+		return data;
+	}
+
+	bool Matrix::TransposeMatrix(Matrix &other)
+	{
+		if (other.size > 0)
 		{
-			subMatrix[i] = new int[size];
-		}
+			int size = other.size;
 
-		for (int j = 0; j < size; j++)
-		{
+			int** subMatrix = new int* [size];
 			for (int i = 0; i < size; i++)
-			{
-				subMatrix[i][j] = other.matrix[j][i];
-			}
-		}
+				subMatrix[i] = new int[size];
 
-		for (int i = 0; i < size; i++)
-		{
 			for (int j = 0; j < size; j++)
-			{
-				other.matrix[i][j] = subMatrix[i][j];
-			}
-		}
+				for (int i = 0; i < size; i++)
+					subMatrix[i][j] = other.matrix[j][i];
 
-		for (int i = 0; i < size; i++)
-		{
-			delete[] subMatrix[i];
+			for (int i = 0; i < size; i++)
+				for (int j = 0; j < size; j++)
+					other.matrix[i][j] = subMatrix[i][j];
+
+			for (int i = 0; i < size; i++)
+				delete[] subMatrix[i];
+			delete[] subMatrix;
+
+			return true;
 		}
-		delete[] subMatrix;
+		else return false;
 	}
 
-	int Matrix::AdditionMatrix(Matrix &other)
+	bool Matrix::AdditionMatrix(Matrix &other)
 	{
-		if (this->size == other.size)
+		if (this->size == other.size && (other.size > 0 && this->size > 0))
 		{
 			for (int i = 0; i < size; i++)
-			{
 				for (int j = 0; j < size; j++)
-				{
 					this->matrix[i][j] += other.matrix[i][j];
-				}
-			}
+
+			return true;
 		}
-		else
-		{
-			std::cout << "Matrixes of different sizes. Addition is not possible." << std::endl;
-			return 1;
-		}
+		else return false;
 	}
 
-	int Matrix::SubstractionMatrix(Matrix &other)
+	bool Matrix::SubstractionMatrix(Matrix &other)
 	{
-		if (this->size == other.size)
+		if (this->size == other.size && (other.size > 0 && this->size > 0))
 		{
 			for (int i = 0; i < size; i++)
-			{
 				for (int j = 0; j < size; j++)
-				{
 					this->matrix[i][j] -= other.matrix[i][j];
-				}
-			}
+
+			return true;
 		}
-		else
-		{
-			std::cout << "Matrixes of different sizes. Substraction is not possible." << std::endl;
-			return 1;
-		}
+		else return false;
 	}
 
 	Matrix::~Matrix()
@@ -126,6 +165,8 @@
 		for (int i = 0; i < size; i++)
 		{
 			delete[] this->matrix[i];
+			delete[] this->str[i];
 		}
 		delete[] this->matrix;
+		delete[] this->str;
 	}
