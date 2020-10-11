@@ -107,8 +107,6 @@ void main()
 
 	const int size = 3;
 
-	char** str;
-
 	// Заполняем матрицы случайными числами
 
 	Matrix mtx1(size);
@@ -122,77 +120,29 @@ void main()
 
 	cout << "Original Matrix\n\n"; // Оригинальные матрицы
 
-	str = mtx1.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
-	str = mtx2.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
-	str = mtx3.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
+	cout << mtx1.toString() << "\n";
+	cout << mtx2.toString() << "\n";
+	cout << mtx3.toString() << "\n";
 
 	cout << "Transpose Matrix\n\n"; // Транспонирование
 	Matrix::TransposeMatrix(mtx1);
-	str = mtx1.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
+	cout << mtx1.toString() << "\n";
 	Matrix::TransposeMatrix(mtx2);
-	str = mtx2.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
+	cout << mtx2.toString() << "\n";
 	Matrix::TransposeMatrix(mtx3);
-	str = mtx3.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
+	cout << mtx3.toString() << "\n";
 
 	std::cout << "Addition Matrix\n\n"; // Сложение матриц
-	
-	str = mtx1.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
-	str = mtx2.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
+	cout << mtx1.toString() << "\n";
+	cout << mtx2.toString() << "\n";
 	mtx1.AdditionMatrix(mtx2);
-	str = mtx1.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
+	cout << mtx1.toString() << "\n";
 
-	cout << mtx1.GetData(1, 1) << endl;
-
-	mtx1.SetData(1, 1, 128);
+	cout << mtx1.GetData(1, 1) << endl; // Геттер
+	mtx1.SetData(1, 1, 128); // Сеттер
 
 	std::cout << "Substraction Matrix\n\n"; // Вычитание матриц
-
-	str = mtx1.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
-	str = mtx3.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
-
-	mtx1.SubstractionMatrix(mtx3);
-	str = mtx1.toString();
-	for (size_t i = 0; i < size; i++)
-		cout << str[i] << "\n";
-	cout << "\n";
+	cout << mtx1.toString() << "\n";
+	cout << mtx3.toString() << "\n";
+	cout << mtx1.toString() << "\n";
 };

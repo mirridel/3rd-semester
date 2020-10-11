@@ -11,15 +11,13 @@ public:
 
 	~Matrix(); // Деструктор
 
-	bool SetData(int, int, int); // Сеттер, который позволяет установить данные для одной ячейки
+	bool SetData(int x, int y, int data); // Сеттер, который позволяет установить данные для одной ячейки
 	
-	int GetData(int, int); // Геттер, который позволяет получить данные из одной ячейки
+	int GetData(int x, int y); // Геттер, который позволяет получить данные из одной ячейки
 
 	bool PushMatrix(); // Заполнение матрицы случайными числами
 
-	char** toString(); // Выводим матрицу в типе char
-
-	void toInt(); // Выводим матрицу в типе int
+	char* toString(); // Выводим матрицу в char
 
 	static bool TransposeMatrix(Matrix &other); // Транспонирование матрицы
 

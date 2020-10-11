@@ -46,40 +46,27 @@
 		return true;
 	}
 
-	char** Matrix::toString()
+	char* Matrix::toString()
 	{
 		if (this->size != 0)
 		{
-			char** buff;
-			buff = new char* [size];
-			for (int i = 0; i < size; i++)
-				buff[i] = new char[size];
+			char* buff = new char [128];
+
+			buff[0] = '\0';
 
 			for (int i = 0; i < size; i++)
 			{
-				buff[i][0] = '\0';
-
 				for (int j = 0; j < size; j++)
 				{
-					char subBuff[16];
+					char subBuff[16] = "";
 					_itoa(matrix[i][j], subBuff, 10);
-					strcat(subBuff, " ");
-					strcat(buff[i], subBuff);
+					strcat(subBuff, "\t");
+					strcat(buff, subBuff);
 				}
+				strcat(buff, "\n");
 			}
-			return buff;
-		}
-	}
 
-	void Matrix::toInt()
-	{
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				std::cout << matrix[i][j] << " ";
-			}
-			std::cout << "\n";
+			return buff;
 		}
 	}
 
