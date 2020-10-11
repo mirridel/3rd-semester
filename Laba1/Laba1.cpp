@@ -1,13 +1,16 @@
 ﻿#include <iostream>
 #include "matrix.h"
 
+using std::cout; 
+using std::endl;
+
 //------ Вариант #4 ------
 
 bool test() // Тесты(?)
 {
 	bool result = true;
 
-	std::cout << "Test... Start..." << std::endl;
+	cout << "Test... Start..." << endl;
 
 	// Test #1
 	// Создание матрицы отрицательного размера
@@ -25,10 +28,10 @@ bool test() // Тесты(?)
 	Matrix matrixT3n1(3);
 	Matrix matrixT3n2(3);
 	if (matrixT3n1.AdditionMatrix(matrixT3n2))
-		std::cout << "#3_1 passed..." << std::endl;
+		cout << "#3_1 passed..." << endl;
 	else
 	{
-		std::cout << "#3_1 failed..." << std::endl;
+		cout << "#3_1 failed..." << endl;
 		return false;
 	}
 
@@ -37,10 +40,10 @@ bool test() // Тесты(?)
 	Matrix matrixT3n3(-1);
 	Matrix matrixT3n4(-1);
 	if (!matrixT3n3.AdditionMatrix(matrixT3n4))
-		std::cout << "#3_2 passed..." << std::endl;
+		cout << "#3_2 passed..." << endl;
 	else
 	{
-		std::cout << "#3_2 failed..." << std::endl;
+		cout << "#3_2 failed..." << endl;
 		return false;
 	}
 
@@ -50,10 +53,10 @@ bool test() // Тесты(?)
 	Matrix matrixT4n1(3);
 	Matrix matrixT4n2(3);
 	if (matrixT4n1.AdditionMatrix(matrixT4n2))
-		std::cout << "#4_1 passed..." << std::endl;
+		cout << "#4_1 passed..." << endl;
 	else
 	{
-		std::cout << "#4_1 failed..." << std::endl;
+		cout << "#4_1 failed..." << endl;
 		return false;
 	}
 
@@ -62,10 +65,10 @@ bool test() // Тесты(?)
 	Matrix matrixT4n3(-1);
 	Matrix matrixT4n4(-1);
 	if (!matrixT4n3.AdditionMatrix(matrixT4n4))
-		std::cout << "#4_2 passed..." << std::endl;
+		cout << "#4_2 passed..." << endl;
 	else
 	{
-		std::cout << "#4_2 failed..." << std::endl;
+		cout << "#4_2 failed..." << endl;
 		return false;
 	}
 
@@ -74,10 +77,10 @@ bool test() // Тесты(?)
 
 	Matrix matrixT5n1(3);
 	if (Matrix::TransposeMatrix(matrixT5n1))
-		std::cout << "#5_1 passed..." << std::endl;
+		cout << "#5_1 passed..." << endl;
 	else
 	{
-		std::cout << "#5_1 failed..." << std::endl;
+		cout << "#5_1 failed..." << endl;
 		return false;
 	}
 
@@ -85,10 +88,10 @@ bool test() // Тесты(?)
 	
 	Matrix matrixT5n2(-1);
 	if (!Matrix::TransposeMatrix(matrixT5n2))
-		std::cout << "#5_2 passed..." << std::endl;
+		cout << "#5_2 passed..." << endl;
 	else
 	{
-		std::cout << "#5_2 failed..." << std::endl;
+		cout << "#5_2 failed..." << endl;
 		return false;
 	}
 
@@ -99,46 +102,97 @@ void main()
 {
 	bool T = test();
 
-	if (T) std::cout << "Test passed..." << std::endl;
-	else std::cout << "Test failed..." << std::endl;
+	if (T) cout << "Test passed..." << endl;
+	else cout << "Test failed..." << endl;
 
-	Matrix mtx1(3);
+	const int size = 3;
+
+	char** str;
+
+	// Заполняем матрицы случайными числами
+
+	Matrix mtx1(size);
 	mtx1.PushMatrix();
 
-	Matrix mtx2(3);
+	Matrix mtx2(size);
 	mtx2.PushMatrix();
 
-	Matrix mtx3(3);
+	Matrix mtx3(size);
 	mtx3.PushMatrix();
 
-	std::cout << "Original Matrix\n\n"; // Оригинальная матрица
-	
-	mtx1.toString();
-	mtx2.toString();
-	mtx3.toString();
+	cout << "Original Matrix\n\n"; // Оригинальные матрицы
 
-	std::cout << "Transpose Matrix\n\n"; // Транспонирование
+	str = mtx1.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
+	str = mtx2.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
+	str = mtx3.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
+	cout << "Transpose Matrix\n\n"; // Транспонирование
 	Matrix::TransposeMatrix(mtx1);
-	mtx1.toString();
+	str = mtx1.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
 	Matrix::TransposeMatrix(mtx2);
-	mtx2.toString();
+	str = mtx2.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
 	Matrix::TransposeMatrix(mtx3);
-	mtx3.toString();
+	str = mtx3.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
 
 	std::cout << "Addition Matrix\n\n"; // Сложение матриц
-	mtx1.toString();
-	mtx2.toString();
+	
+	str = mtx1.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
+	str = mtx2.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
 
 	mtx1.AdditionMatrix(mtx2);
-	mtx1.toString();
+	str = mtx1.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
+	cout << mtx1.GetData(1, 1) << endl;
 
 	mtx1.SetData(1, 1, 128);
 
 	std::cout << "Substraction Matrix\n\n"; // Вычитание матриц
-	
-	mtx1.toString();
-	mtx3.toString();
+
+	str = mtx1.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
+
+	str = mtx3.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
 
 	mtx1.SubstractionMatrix(mtx3);
-	mtx1.toString();
+	str = mtx1.toString();
+	for (size_t i = 0; i < size; i++)
+		cout << str[i] << "\n";
+	cout << "\n";
 };

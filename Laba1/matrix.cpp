@@ -13,10 +13,6 @@
 			matrix = new int* [size];
 			for (int i = 0; i < size; i++)
 				matrix[i] = new int[size];
-
-			str = new char* [size];
-			for (int i = 0; i < size; i++)
-				str[i] = new char[64];
 		}
 	}
 
@@ -29,10 +25,6 @@
 			this->matrix = new int* [size];
 			for (int i = 0; i < size; i++)
 				matrix[i] = new int[size];
-
-			str = new char* [size];
-			for (int i = 0; i < size; i++)
-				str[i] = new char[64];
 
 			for (int i = 0; i < size; i++)
 				for (int j = 0; j < size; j++)
@@ -54,25 +46,28 @@
 		return true;
 	}
 
-	void Matrix::toString()
+	char** Matrix::toString()
 	{
 		if (this->size != 0)
 		{
+			char** buff;
+			buff = new char* [size];
+			for (int i = 0; i < size; i++)
+				buff[i] = new char[size];
+
 			for (int i = 0; i < size; i++)
 			{
-				str[i][0] = '\0';
+				buff[i][0] = '\0';
 
 				for (int j = 0; j < size; j++)
 				{
-					char buff[16];
-					_itoa(matrix[i][j], buff, 10);
-					strcat(buff, " ");
-					strcat(str[i], buff);
+					char subBuff[16];
+					_itoa(matrix[i][j], subBuff, 10);
+					strcat(subBuff, " ");
+					strcat(buff[i], subBuff);
 				}
 			}
-			for (int i = 0; i < size; i++)
-				std::cout << str[i] << std::endl;
-			std::cout << std::endl;
+			return buff;
 		}
 	}
 
@@ -165,8 +160,6 @@
 		for (int i = 0; i < size; i++)
 		{
 			delete[] this->matrix[i];
-			delete[] this->str[i];
 		}
 		delete[] this->matrix;
-		delete[] this->str;
 	}
