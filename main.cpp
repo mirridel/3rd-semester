@@ -21,20 +21,20 @@ int main()
 	mtx3.PushMatrix();
 
 	std::cout << "Original Matrix\n\n"; // Оригинальная матрица
-	cout << toString(mtx1) << endl;
+	cout << mtx1.ToString() << endl;
 	cout << "Determinant:\t" << mtx1() << "\n\n";
-	cout << toString(mtx2) << endl;
+	cout << mtx2.ToString() << endl;
 	cout << "Determinant:\t" << mtx2() << "\n\n";
-	cout << toString(mtx3) << endl;
+	cout << mtx3.ToString() << endl;
 	cout << "Determinant:\t" << mtx3() << "\n\n";
 
 	std::cout << "Addition Matrix\n\n"; // Сложение матриц
 	mtx1 = mtx1 + mtx2;
-	cout << toString(mtx1) << endl;
+	cout << mtx1.ToString() << endl;
 
 	std::cout << "Substraction Matrix\n\n"; // Вычитание матриц
 	mtx1 = mtx1 - mtx3;
-	cout << toString(mtx1) << endl;
+	cout << mtx1.ToString() << endl;
 
 	std::cout << "A(1, 1)\t " << mtx1(1, 1) << std::endl;
 

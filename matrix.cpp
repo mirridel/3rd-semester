@@ -55,20 +55,20 @@ void Matrix::PushMatrix()
 			matrix[i][j] = rand() % 10;
 }
 
-char* toString(Matrix& cc)
+char* Matrix::ToString()
 {
-	if (cc.size != 0)
+	if (size != 0)
 	{
 		char* buff = new char[128];
 
 		buff[0] = '\0';
 
-		for (int i = 0; i < cc.size; i++)
+		for (int i = 0; i < size; i++)
 		{
-			for (int j = 0; j < cc.size; j++)
+			for (int j = 0; j < size; j++)
 			{
 				char subBuff[16] = "";
-				_itoa(cc.matrix[i][j], subBuff, 10);
+				_itoa(matrix[i][j], subBuff, 10);
 				strcat(subBuff, "\t");
 				strcat(buff, subBuff);
 			}
@@ -78,7 +78,7 @@ char* toString(Matrix& cc)
 	}
 }
 
-double Matrix::determinant()
+double Matrix::Determinant()
 {
 	if (this->size > 0)
 	{
@@ -92,7 +92,7 @@ double Matrix::determinant()
 			while (matrix[0][k] == 0) k++;
 			if (k == size) return 0;
 			else
-				return  pow(-1, k) * A.GausStep(0, k).matrix[0][k] * (A.GausStep(0, k).Minor(0, k)).determinant();
+				return  pow(-1, k) * A.GausStep(0, k).matrix[0][k] * (A.GausStep(0, k).Minor(0, k)).Determinant();
 		}
 	}
 }
@@ -154,12 +154,12 @@ Matrix Matrix::GausStep(int p, int q)
 Matrix Matrix::ReverseMatrix()
 {
 	Matrix qq(size);
-	if (determinant() != 0)
+	if (Determinant() != 0)
 	{
-		double Det = determinant();
+		double Det = Determinant();
 		for (int i = 0; i < size; i++)
 			for (int j = 0; j < size; j++)
-				qq.matrix[i][j] = Minor(i, j).determinant() * pow(-1, i + j) / Det;
+				qq.matrix[i][j] = Minor(i, j).Determinant() * pow(-1, i + j) / Det;
 	}
 	return qq.Tr();
 }
@@ -175,7 +175,7 @@ Matrix Matrix::Tr()
 
 double Matrix::operator()() // Determinant
 {
-	return determinant();
+	return Determinant();
 }
 
 double& Matrix::operator()(int x, int y) // Getter
@@ -184,7 +184,7 @@ double& Matrix::operator()(int x, int y) // Getter
 		return (matrix[x][y]);
 };
 
-int Matrix::getSize() // Getter of size
+int Matrix::GetSize() // Getter of size
 {
 	return this->size;
 };
@@ -208,34 +208,28 @@ Matrix& Matrix::operator=(const Matrix& other)
 	return *this;
 }
 
-Matrix& Matrix::operator+(const Matrix& other)
+Matrix& operator+(Matrix& first, const Matrix& second)
 {
-	if (this->size == other.size && this->size > 0 && other.size > 0)
+	if (first.size == second.size && first.size > 0 && second.size > 0)
 	{
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				this->matrix[i][j] += other.matrix[i][j];
-			}
-		}
+		for (int i = 0; i < first.size; i++)
+			for (int j = 0; j < first.size; j++)
+				first.matrix[i][j] += second.matrix[i][j];
+
+		return *&first;
 	}
-	return *this;
 }
 
-Matrix& Matrix::operator-(const Matrix& other)
+Matrix& operator-(Matrix& first, const Matrix& second)
 {
-	if (this->size == other.size && this->size > 0 && other.size > 0)
+	if (first.size == second.size && first.size > 0 && second.size > 0)
 	{
-		for (int i = 0; i < size; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				this->matrix[i][j] -= other.matrix[i][j];
-			}
-		}
+		for (int i = 0; i < first.size; i++)
+			for (int j = 0; j < first.size; j++)
+				first.matrix[i][j] -= second.matrix[i][j];
+
+		return *&first;
 	}
-	return *this;
 }
 
 Matrix::~Matrix()

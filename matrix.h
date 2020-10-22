@@ -16,9 +16,9 @@ public:
 
 	void PushMatrix(); // Function that fills a matrix with random numbers
 
-	friend char* toString(Matrix& cc); // Friendly function that returns a matrix as a string
+	char* ToString(); // Function that returns a matrix as a string
 
-	double determinant(); // Finding determinant
+	double Determinant(); // Finding determinant
 
 	Matrix Minor(const int p, const  int q); // Finding minor for a determinant
 
@@ -36,15 +36,15 @@ public:
 
 	double& operator()(int x, int y); // Getter
 
-	int getSize(); // Getter of size
+	int GetSize(); // Getter of size
 
 	void operator()(int x, int y, int data); // Setter
 
 	Matrix& operator=(const Matrix& other); // Operator for assigning
 
-	Matrix& operator+(const Matrix& other); // Operator for addition
+	friend Matrix& operator+(Matrix& first, const Matrix& second); // Operator for addition
 
-	Matrix& operator-(const Matrix& other); // Operator for subtraction
+	friend Matrix& operator-(Matrix& first, const Matrix& second); // Operator for subtraction
 
 private:
 	int size;
