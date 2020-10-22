@@ -48,14 +48,14 @@ Matrix::Matrix(const Matrix& other)
 	}
 }
 
-void Matrix::PushMatrix()
+void Matrix::pushMatrix()
 {
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
 			matrix[i][j] = rand() % 10;
 }
 
-char* Matrix::ToString()
+char* Matrix::toString()
 {
 	if (size != 0)
 	{
@@ -78,7 +78,7 @@ char* Matrix::ToString()
 	}
 }
 
-double Matrix::Determinant()
+double Matrix::determinant()
 {
 	if (this->size > 0)
 	{
@@ -92,42 +92,42 @@ double Matrix::Determinant()
 			while (matrix[0][k] == 0) k++;
 			if (k == size) return 0;
 			else
-				return  pow(-1, k) * A.GausStep(0, k).matrix[0][k] * (A.GausStep(0, k).Minor(0, k)).Determinant();
+				return  pow(-1, k) * A.gausStep(0, k).matrix[0][k] * (A.gausStep(0, k).minor(0, k)).determinant();
 		}
 	}
 }
 
-Matrix Matrix::Minor(const int p, const  int q)
+Matrix Matrix::minor(const int p, const  int q)
 {
-	double** minor = new double* [size - 1];
-	for (int i = 0; i < size - 1; i++) minor[i] = new double[size - 1];
+	double** m = new double* [size - 1];
+	for (int i = 0; i < size - 1; i++) m[i] = new double[size - 1];
 
 	for (int i = 0; i < p; i++)
 	{
 		for (int j = 0; j < q; j++)
-			minor[i][j] = matrix[i][j];
+			m[i][j] = matrix[i][j];
 		for (int j = q; j < size - 1; j++)
-			minor[i][j] = matrix[i][j + 1];
+			m[i][j] = matrix[i][j + 1];
 	}
 
 	for (int i = p; i < size - 1; i++)
 	{
 		for (int j = q; j < size - 1; j++)
-			minor[i][j] = matrix[i + 1][j + 1];
+			m[i][j] = matrix[i + 1][j + 1];
 		for (int j = 0; j < q; j++)
-			minor[i][j] = matrix[i + 1][j];
+			m[i][j] = matrix[i + 1][j];
 	}
 
-	Matrix result(minor, size - 1);
+	Matrix result(m, size - 1);
 
 	for (int i = 0; i < size - 1; i++)
-		delete[] minor[i];
-	delete[] minor;
+		delete[] m[i];
+	delete[] m;
 
 	return result;
 }
 
-Matrix Matrix::GausStep(int p, int q)
+Matrix Matrix::gausStep(int p, int q)
 {
 	double** result = new double* [size];
 	for (int i = 0; i < size; i++) result[i] = new double[size];
@@ -151,20 +151,20 @@ Matrix Matrix::GausStep(int p, int q)
 	return A;
 }
 
-Matrix Matrix::ReverseMatrix()
+Matrix Matrix::reverseMatrix()
 {
 	Matrix qq(size);
-	if (Determinant() != 0)
+	if (determinant() != 0)
 	{
-		double Det = Determinant();
+		double Det = determinant();
 		for (int i = 0; i < size; i++)
 			for (int j = 0; j < size; j++)
-				qq.matrix[i][j] = Minor(i, j).Determinant() * pow(-1, i + j) / Det;
+				qq.matrix[i][j] = minor(i, j).determinant() * pow(-1, i + j) / Det;
 	}
-	return qq.Tr();
+	return qq.tr();
 }
 
-Matrix Matrix::Tr()
+Matrix Matrix::tr()
 {
 	Matrix qq(size);
 	for (int i = 0; i < size; i++)
@@ -175,7 +175,7 @@ Matrix Matrix::Tr()
 
 double Matrix::operator()() // Determinant
 {
-	return Determinant();
+	return determinant();
 }
 
 double& Matrix::operator()(int x, int y) // Getter
@@ -184,7 +184,7 @@ double& Matrix::operator()(int x, int y) // Getter
 		return (matrix[x][y]);
 };
 
-int Matrix::GetSize() // Getter of size
+int Matrix::getSize() // Getter of size
 {
 	return this->size;
 };

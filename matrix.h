@@ -14,29 +14,29 @@ public:
 
 	~Matrix();
 
-	void PushMatrix(); // Function that fills a matrix with random numbers
+	void pushMatrix(); // Function that fills a matrix with random numbers
 
-	char* ToString(); // Function that returns a matrix as a string
+	char* toString(); // Function that returns a matrix as a string
 
-	double Determinant(); // Finding determinant
+	double determinant(); // Finding determinant
 
-	Matrix Minor(const int p, const  int q); // Finding minor for a determinant
+	Matrix minor(const int p, const  int q); // Finding minor for a determinant
 
 	double* operator[](int j) { return matrix[j]; } // Operator for determinant
 
 	double*& operator[](int j) const { return matrix[j]; } // Operator for determinant
 
-	Matrix GausStep(int p, int q); // Subfunction for determinant
+	Matrix gausStep(int p, int q); // Subfunction for determinant
 
-	Matrix ReverseMatrix(); // Subfunction for determinant
+	Matrix reverseMatrix(); // Subfunction for determinant
 
-	Matrix Tr(); // Subfunction for determinant
+	Matrix tr(); // Subfunction for determinant
 
 	double operator()(); // Determinant
 
 	double& operator()(int x, int y); // Getter
 
-	int GetSize(); // Getter of size
+	int getSize(); // Getter of size
 
 	void operator()(int x, int y, int data); // Setter
 
