@@ -10,16 +10,14 @@ using std::endl;
 
 int main()
 {
-	/*
 	bool T = test();
 	if (T)
 		cout << "Test passed...\n" << endl;
 	else cout << "Test failed...\n" << endl;
-	*/
 
 	Matrix m1(3), m2(3);
 
-	cout << "Original matrices x1:\n" << endl;
+	cout << "Original matrices x1:" << endl;
 	m1.PushMatrix();
 	cout << m1 << endl;
 	m2.PushMatrix();

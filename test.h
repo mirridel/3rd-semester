@@ -36,7 +36,7 @@ bool test() // Main function.
 		return false;
 
 	// Getter of size
-	if ((m1.getSize() != 3) || (m2.getSize() != 3))
+	if ((m1.GetSize() != 3) || (m2.GetSize() != 3))
 		return false;
 
 	// Setter
@@ -117,7 +117,7 @@ bool test() // Main function.
 int sum(Matrix& cc)
 {
 	int s = 0;
-	int size = cc.getSize();
+	int size = cc.GetSize();
 
 	for (int x = 0; x < size; x++)
 		for (int y = 0; y < size; y++)

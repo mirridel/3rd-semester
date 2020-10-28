@@ -45,7 +45,7 @@ Matrix::Matrix(const Matrix& other)
 	}
 }
 
-std::ostream& operator <<(std::ostream& os, Matrix& cc)
+std::ostream& operator << (std::ostream& os, Matrix& cc)
 {
 	os << "Matrix #" << cc.ID << endl;
 
@@ -58,7 +58,7 @@ std::ostream& operator <<(std::ostream& os, Matrix& cc)
 	return os;
 }
 
-std::ofstream& operator <<(std::ofstream& ofs, Matrix& other)
+std::ofstream& operator << (std::ofstream& ofs, Matrix& other)
 {
 	for (int i = 0; i < other.size; i++)
 	{
@@ -67,7 +67,6 @@ std::ofstream& operator <<(std::ofstream& ofs, Matrix& other)
 		ofs << endl;
 	}
 	ofs << endl;
-
 	return ofs;
 }
 
@@ -94,10 +93,7 @@ std::ifstream& operator >> (std::ifstream& ifs, Matrix& cc)
 {
 	for (int i = 0; i < cc.size; i++)
 		for (int j = 0; j < cc.size; j++)
-		{
 			ifs >> cc.matrix[i][j];
-		}
-
 	return ifs;
 }
 
@@ -127,8 +123,6 @@ void ReadFromFile(Matrix& obj, const int objPosition)
 	}
 	in.close();
 }
-
-//static int binPos = NULL;
 
 void WriteToBinFile(Matrix& obj) // Write to binary file
 {
@@ -169,7 +163,7 @@ void Matrix::PushMatrix()
 			matrix[i][j] = rand() % 10;
 }
 
-char* Matrix::toString(Matrix& cc)
+char* Matrix::ToString(Matrix& cc)
 {
 	if (cc.size != 0)
 	{
@@ -198,7 +192,7 @@ int& Matrix::operator()(int x, int y) // Getter
 		return (matrix[x][y]);
 }
 
-int Matrix::getSize() // Getter of size
+int Matrix::GetSize() // Getter of size
 {
 	return this->size;
 }
