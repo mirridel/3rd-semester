@@ -9,11 +9,10 @@ using std::endl;
 Matrix::Matrix(int size)
 {
 	this->size = size;
-
+	//cout << "C\t" << this << endl;
 	if (this->size > 0)
 	{
 		matrix = new double* [size];
-
 		for (int i = 0; i < size; i++)
 			matrix[i] = new double[size];
 	}
@@ -173,20 +172,10 @@ Matrix Matrix::tr()
 	return qq;
 }
 
-double Matrix::operator()() // Determinant
-{
-	return determinant();
-}
-
 double& Matrix::operator()(int x, int y) // Getter
 {
 	if ((x >= 0 && x < size) && (y >= 0 && y < size))
 		return (matrix[x][y]);
-};
-
-int Matrix::getSize() // Getter of size
-{
-	return this->size;
 };
 
 void Matrix::operator()(int x, int y, int data) // Setter
@@ -234,8 +223,8 @@ Matrix& operator-(Matrix& first, const Matrix& second)
 
 Matrix::~Matrix()
 {
+	//cout << "D\t" << this << endl;
 	for (int i = 0; i < size; i++)
 		delete[] matrix[i];
-
 	delete[] matrix;
 }
