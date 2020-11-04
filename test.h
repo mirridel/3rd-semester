@@ -3,8 +3,7 @@
 
 #include "matrix.h"
 
-using std::cout;
-using std::endl;
+using std::cout; using std::endl;
 
 int sum(Matrix& cc); // Adds all the values in the matrix and returns the sum.
 
@@ -12,27 +11,26 @@ bool test() // Main function.
 {
 
 	Matrix m1(3);
-	m1(0, 0, 0); m1(0, 1, 1); m1(0, 2, 2); // 0  1  2
-	m1(1, 0, 3); m1(1, 1, 4); m1(1, 2, 5); // 3  4  5
-	m1(2, 0, 6); m1(2, 1, 7); m1(2, 2, 8); // 6  7  8
-	//cout << toString(m1) << endl;
+	m1[0][0] = 0; m1[0][1] = 1; m1[0][2] = 2; // 0  1  2
+	m1[1][0] = 3; m1[1][1] = 4; m1[1][2] = 5; // 3  4  5
+	m1[2][0] = 6; m1[2][1] = 7; m1[2][2] = 8; // 6  7  8
+	//cout << m1.toString() << endl;
 
 	Matrix m2(3);
-	m2(0, 0, 9); m2(0, 1, 8); m2(0, 2, 7); // 9  8  7
-	m2(1, 0, 6); m2(1, 1, 5); m2(1, 2, 4); // 6  5  4
-	m2(2, 0, 3); m2(2, 1, 2); m2(2, 2, 1); // 3  2  1
-	//cout << toString(m2) << endl;
+	m2[0][0] = 9; m2[0][1] = 8; m2[0][2] = 7; // 9  8  7
+	m2[1][0] = 6; m2[1][1] = 5; m2[1][2] = 4; // 6  5  4
+	m2[2][0] = 3; m2[2][1] = 2; m2[2][2] = 1; // 3  2  1
+	//cout << m2.toString() << endl;
 
 	Matrix m3(3);
-	m3(0, 0, 0); m3(0, 1, 0); m3(0, 2, 0); // 0  0  0
-	m3(1, 0, 0); m3(1, 1, 0); m3(1, 2, 0); // 0  0  0
-	m3(2, 0, 0); m3(2, 1, 0); m3(2, 2, 0); // 0  0  0
-	//cout << toString(m3) << endl;
+	m3[0][0] = 0; m3[0][1] = 0; m3[0][2] = 0; // 0  0  0
+	m3[1][0] = 0; m3[1][1] = 0; m3[1][2] = 0; // 0  0  0
+	m3[2][0] = 0; m3[2][1] = 0; m3[2][2] = 0; // 0  0  0
+	//cout << m3.toString() << endl;
 
 	// Testing basic functions.
-
 	// Getter
-	if ((m1(0, 0) != 0) || (m2(0, 0) != 9))
+	if ((m1[0][0] != 0) || (m2[0][0] != 9))
 		return false;
 
 	// Getter of size
@@ -40,8 +38,8 @@ bool test() // Main function.
 		return false;
 
 	// Setter
-	m3(0, 0, 128);
-	if (m3(0, 0) != 128)
+	m3[0][0] = 128;
+	if (m3[0][0] != 128)
 		return false;
 
 	// Test 1 
@@ -55,29 +53,31 @@ bool test() // Main function.
 		return false;
 	}
 
-	m1(0, 0, 0); m1(0, 1, 0); m1(0, 2, 0);
-	m1(1, 0, 0); m1(1, 1, 0); m1(1, 2, 0);
-	m1(2, 0, 0); m1(2, 1, 0); m1(2, 2, 0);
+	m1[0][0] = 0; m1[0][1] = 0; m1[0][2] = 0; // 0  0  0
+	m1[1][0] = 0; m1[1][1] = 0; m1[1][2] = 0; // 0  0  0
+	m1[2][0] = 0; m1[2][1] = 0; m1[2][2] = 0; // 0  0  0
+	//cout << m1.toString() << endl;
 
-	m2(0, 0, 1); m2(0, 1, 1); m2(0, 2, 1);
-	m2(1, 0, 1); m2(1, 1, 1); m2(1, 2, 1);
-	m2(2, 0, 1); m2(2, 1, 1); m2(2, 2, 1);
+	m2[0][0] = 1; m2[0][1] = 1; m2[0][2] = 1; // 1  1  1
+	m2[1][0] = 1; m2[1][1] = 1; m2[1][2] = 1; // 1  1  1
+	m2[2][0] = 1; m2[2][1] = 1; m2[2][2] = 1; // 1  1  1
+	//cout << m2.toString() << endl;
 
 	// Test 2
 	// Subtraction of matrices
-
 	m1 = m1 - m2;
+	//cout << m1.toString() << endl;
 
 	if (sum(m1) != -9) // Target value -9
 	{
-		cout << "Test #2 failed..." << endl;
+		cout << "Test #2 failed..." << sum(m1) << endl;
 		return false;
 	}
 
 	// Test 3
 	// Assigning values of the 2nd matrix to the 1st matrix.
-
 	m1 = m2;
+	//cout << m1.toString() << endl;
 
 	if (sum(m1) != 9) // Target value 9
 	{
@@ -95,7 +95,6 @@ bool test() // Main function.
 	}
 
 	// Special case
-
 	// Test 5
 	// Creating a matrix with negative sizes.
 
@@ -119,12 +118,6 @@ bool test() // Main function.
 
 	m4(); m5();    
 
-	// Test 9
-	// Checking the getter and setter for incorrect data.
-	
-	m1(-64, 128);
-	m4(-128, -512, 2);
-
 	return true;
 }
 
@@ -134,9 +127,9 @@ int sum(Matrix& cc)
 	int size = cc.getSize();
 
 	for (int x = 0; x < size; x++)
-		for (int y = 0; y < size; y++)
-			s += cc(x, y);
-
+		for (int y = 0; y < size; y++) {
+			s += cc[x][y];
+		}
 	return s;
 }
 

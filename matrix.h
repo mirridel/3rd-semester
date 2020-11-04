@@ -21,12 +21,10 @@ public:
 	double operator()() { return determinant(); } // Overloading operator for finding determinant
 
 	// Overloading the indexing operator
-	double* operator[](int j) { return matrix[j]; }
-	double*& operator[](int j) const { return matrix[j]; }
+	double* operator[](int i) { return matrix[i]; };
+	double*& operator[](int i) const { return matrix[i]; };
 
-	double& operator()(int x, int y); // Getter of data
 	int getSize() { return this->size; } // Getter of size
-	void operator()(int x, int y, int data); // Setter of data
 
 	Matrix& operator=(const Matrix& other); // Operator for assigning
 	friend Matrix& operator+(Matrix& first, const Matrix& second); // Operator for addition

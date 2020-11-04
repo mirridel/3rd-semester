@@ -172,18 +172,6 @@ Matrix Matrix::tr()
 	return qq;
 }
 
-double& Matrix::operator()(int x, int y) // Getter
-{
-	if ((x >= 0 && x < size) && (y >= 0 && y < size))
-		return (matrix[x][y]);
-};
-
-void Matrix::operator()(int x, int y, int data) // Setter
-{
-	if ((x >= 0 && x < size) && (y >= 0 && y < size))
-		matrix[x][y] = data;
-};
-
 Matrix& Matrix::operator=(const Matrix& other)
 {
 	if (this->size == other.size && this->size > 0 && other.size > 0)
