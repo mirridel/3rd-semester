@@ -20,13 +20,13 @@ public:
 
 	friend std::ifstream& operator >> (std::ifstream& ifs, Matrix& cc);
 
-	friend void WriteToFile(Matrix& obj); // Writing from file
+	void WriteToFile(char* path, std::fstream& file); // Writing from file
 
-	friend void ReadFromFile(Matrix& obj,const int objPosition); // Reading from file
+	void ReadFromFile(char* path, std::fstream& file); // Reading from file
 
-	friend void WriteToBinFile(Matrix& obj); // Writing from binary file
+	void WriteToBinFile(char* path, std::fstream& file); // Writing from binary file
 
-	friend void ReadFromBinFile(Matrix& obj, const int objPosition); // Reading from binary file
+	void ReadFromBinFile(char* path, std::fstream& file); // Reading from binary file
 
 	void PushMatrix(); // Function that fills a matrix with random numbers
 
@@ -45,7 +45,6 @@ public:
 	friend Matrix& operator-(Matrix& first, const Matrix& second); // Friendly operator for subtraction
 
 private:
-	int ID;
 	int size;
 	int** matrix;
 };

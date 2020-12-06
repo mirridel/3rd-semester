@@ -8,9 +8,8 @@ using std::endl;
 
 int sum(Matrix& cc); // Adds all the values in the matrix and returns the sum.
 
-bool test() // Main function.
+bool test1() // +
 {
-
 	Matrix m1(3);
 	m1(0, 0, 0); m1(0, 1, 1); m1(0, 2, 2); // 0  1  2
 	m1(1, 0, 3); m1(1, 1, 4); m1(1, 2, 5); // 3  4  5
@@ -23,30 +22,7 @@ bool test() // Main function.
 	m2(2, 0, 3); m2(2, 1, 2); m2(2, 2, 1); // 3  2  1
 	//cout << toString(m2) << endl;
 
-	Matrix m3(3);
-	m3(0, 0, 0); m3(0, 1, 0); m3(0, 2, 0); // 0  0  0
-	m3(1, 0, 0); m3(1, 1, 0); m3(1, 2, 0); // 0  0  0
-	m3(2, 0, 0); m3(2, 1, 0); m3(2, 2, 0); // 0  0  0
-	//cout << toString(m3) << endl;
-
-	// Testing basic functions.
-
-	// Getter
-	if ((m1(0, 0) != 0) || (m2(0, 0) != 9))
-		return false;
-
-	// Getter of size
-	if ((m1.GetSize() != 3) || (m2.GetSize() != 3))
-		return false;
-
-	// Setter
-	m3(0, 0, 128);
-	if (m3(0, 0) != 128)
-		return false;
-
-	// Test 1 
 	// Addition of matrices
-
 	m1 = m1 + m2;
 
 	if (sum(m1) != 81) // Target value 81
@@ -63,53 +39,89 @@ bool test() // Main function.
 	m2(1, 0, 1); m2(1, 1, 1); m2(1, 2, 1);
 	m2(2, 0, 1); m2(2, 1, 1); m2(2, 2, 1);
 
-	// Test 2
+	// Special case
+	// Creating a matrix with negative sizes.
+	Matrix m3(2);
+	Matrix m4(-8);
+
+	// Addition and subtraction matrices with negative size.
+	m3 = m3 + m4;
+
+	// Addition and subtraction matrices with different sizes.
+	m1 = m1 + m3;
+
+	return true;
+}
+
+bool test2() // -
+{
+	Matrix m1(3);
+	m1(0, 0, 0); m1(0, 1, 1); m1(0, 2, 2); // 0  1  2
+	m1(1, 0, 3); m1(1, 1, 4); m1(1, 2, 5); // 3  4  5
+	m1(2, 0, 6); m1(2, 1, 7); m1(2, 2, 8); // 6  7  8
+	//cout << toString(m1) << endl;
+
+	Matrix m2(3);
+	m2(0, 0, 9); m2(0, 1, 8); m2(0, 2, 7); // 9  8  7
+	m2(1, 0, 6); m2(1, 1, 5); m2(1, 2, 4); // 6  5  4
+	m2(2, 0, 3); m2(2, 1, 2); m2(2, 2, 1); // 3  2  1
+	//cout << toString(m2) << endl;
+
+
 	// Subtraction of matrices
-
 	m1 = m1 - m2;
-
 	if (sum(m1) != -9) // Target value -9
 	{
 		cout << "Test #2 failed..." << endl;
 		return false;
 	}
 
-	// Test 3
-	// Assigning values of the 2nd matrix to the 1st matrix.
+	// Special case
+	// Creating a matrix with negative sizes.
+	Matrix m3(2);
+	Matrix m4(-8);
+
+	m3 = m3 - m4;
+	m1 = m1 - m2;
+
+	return true;
+}
+
+bool test3() // =
+{
+	Matrix m1(3);
+	m1(0, 0, 0); m1(0, 1, 1); m1(0, 2, 2); // 0  1  2
+	m1(1, 0, 3); m1(1, 1, 4); m1(1, 2, 5); // 3  4  5
+	m1(2, 0, 6); m1(2, 1, 7); m1(2, 2, 8); // 6  7  8
+	//cout << toString(m1) << endl;
+
+	Matrix m2(3);
+	m2(0, 0, 9); m2(0, 1, 8); m2(0, 2, 7); // 9  8  7
+	m2(1, 0, 6); m2(1, 1, 5); m2(1, 2, 4); // 6  5  4
+	m2(2, 0, 3); m2(2, 1, 2); m2(2, 2, 1); // 3  2  1
+	//cout << toString(m2) << endl;
 
 	m1 = m2;
 
-	if (sum(m1) != 9) // Target value 9
-	{
-		cout << "Test #3 failed..." << endl;
+	if (sum(m1) != 45) // Target value 45
 		return false;
-	}
+
+	m1(0, 0, 0); m1(0, 1, 0); m1(0, 2, 0);
+	m1(1, 0, 0); m1(1, 1, 0); m1(1, 2, 0);
+	m1(2, 0, 0); m1(2, 1, 0); m1(2, 2, 0);
+
+	m2(0, 0, 1); m2(0, 1, 1); m2(0, 2, 1);
+	m2(1, 0, 1); m2(1, 1, 1); m2(1, 2, 1);
+	m2(2, 0, 1); m2(2, 1, 1); m2(2, 2, 1);
 
 	// Special case
-
-	// Test 4
 	// Creating a matrix with negative sizes.
+	Matrix m3(2);
+	Matrix m4(-8);
 
-	Matrix m4(-1);
-	Matrix m5(0);
+	m3 = m4;
 
-	// Test 5
-	// Addition and subtraction matrices with negative size.
-
-	m4 = m4 + m5;
-	m4 = m4 - m5;
-
-	// Test 6
-	// Addition and subtraction matrices with different sizes.
-
-	m1 = m1 + m4;
-	m1 = m1 - m4;
-
-	// Test 7
-	// Checking the getter and setter for incorrect data.
-	
-	m1(-64, 128);
-	m4(-128, -512, 2);
+	m1 = m2;
 
 	return true;
 }
