@@ -34,8 +34,7 @@ RectangularMatrix& operator+(RectangularMatrix& first, RectangularMatrix& second
 			for (int j = 0; j < first.cols; j++)
 				first.matrix[i][j] += second.matrix[i][j];
 	}
-	else
-		cout << "Error" << endl;
+
 	return *&first;
 };
 
@@ -50,8 +49,7 @@ RectangularMatrix& operator-(RectangularMatrix& first, RectangularMatrix& second
 			for (int j = 0; j < first.cols; j++)
 				first.matrix[i][j] -= second.matrix[i][j];
 	}
-	else
-		cout << "Error" << endl;
+
 	return *&first;
 };
 
@@ -91,7 +89,6 @@ RectangularMatrix& operator*(RectangularMatrix& first, RectangularMatrix& second
 			for (int j = 0; j < first.cols; j++)
 				first.matrix[i][j] = buffer.matrix[i][j];
 	}
-	else
-		cout << "Error" << endl;
+
 	return *&first;
 };

@@ -13,8 +13,8 @@ Matrix::Matrix(int size)
 	FillMatrix();
 };
 
-Matrix::Matrix(const Matrix& cc) {
-
+Matrix::Matrix(const Matrix& cc)
+{
 	if (cc.rows > 0 && cc.cols > 0)
 	{
 		this->rows = cc.rows;
@@ -27,9 +27,8 @@ Matrix::Matrix(const Matrix& cc) {
 	}
 };
 
-std::ostream& operator << (std::ostream& os, Matrix& cc) {
-
-	os << "Matrix #" << cc.ID << endl;
+std::ostream& operator << (std::ostream& os, Matrix& cc)
+{
 	for (int i = 0; i < cc.rows; i++)
 	{
 		for (int j = 0; j < cc.cols; j++)
@@ -55,10 +54,7 @@ std::istream& operator >> (std::istream& is, Matrix& cc)
 {
 	for (int i = 0; i < cc.rows; i++)
 		for (int j = 0; j < cc.cols; j++)
-		{
-			cout << "[" << i << "|" << j << "]\t";
 			is >> cc.matrix[i][j];
-		}
 	return is;
 }
 
@@ -70,64 +66,57 @@ std::ifstream& operator >> (std::ifstream& ifs, Matrix& cc)
 	return ifs;
 }
 
-void WriteToFile(Matrix& obj)
+void Matrix::WriteToFile(char* path, std::fstream& file)
 {
-	std::ofstream out("text.txt", std::ios::app);
+	file.open(path, std::ios_base::out);
 
-	if (!out)
-		std::cout << "File opening error...";
+	if (!file.is_open())
+		std::cout << "File opening error\t" << path << endl;
 
-	out << obj;
-	out.close();
+	file.clear();
+	file << *this;
+	file.close();
 }
 
-void ReadFromFile(Matrix& obj, const int objPosition)
+void Matrix::ReadFromFile(char* path, std::fstream& file)
 {
-	std::ifstream in("text.txt", std::ios::in);
-	if (!in)
-		std::cout << "File opening error...";
-	cout << "Position in file:\t" << objPosition << endl;
-	for (int i = 0; i < objPosition; i++)
-	{
-		if (!(in.eof()))
-			in >> obj;
-		else
-			break;
-	}
-	in.close();
+	file.open(path, std::ios_base::in);
+
+	if (!file.is_open())
+		std::cout << "File opening error\t" << path << endl;
+
+	file >> *this;
+	file.close();
 }
 
-void WriteToBinFile(Matrix& obj)
+void Matrix::WriteToBinFile(char* path, std::fstream& file) // Write to binary file
 {
-	std::ofstream out("file.dat", std::ios::app);
+	file.open(path, std::ios_base::out | std::ios_base::binary);
 
-	if (!out)
-		std::cout << "File opening error...";
+	if (!file.is_open())
+		std::cout << "File opening error\t" << path << endl;
 
-	for (int i = 0; i < obj.rows; i++)
-		for (int j = 0; j < obj.cols; j++)
-			out.write((char*)&(obj.matrix[i][j]), sizeof(**(obj.matrix)));
-	out.close();
+	file.clear();
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			file.write((char*)&(matrix[i][j]), sizeof(**matrix));
+	file.close();
 }
 
-void ReadFromBinFile(Matrix& obj, const int objPosition)
+void Matrix::ReadFromBinFile(char* path, std::fstream& file) // Read from binary file
 {
-	std::ifstream in("file.dat", std::ios::in);
+	file.open(path, std::ios_base::in | std::ios_base::binary);
 
-	if (!in)
-		std::cout << "File opening error...";
-	cout << "Position in file:\t" << objPosition << endl;
-	for (int i = 0; i < objPosition; i++)
-	{
-		if (!(in.eof()))
-			for (int i = 0; i < obj.rows; i++)
-				for (int j = 0; j < obj.cols; j++)
-					in.read((char*)&(obj.matrix[i][j]), sizeof(**(obj.matrix)));
-		else
-			break;
-	}
-	in.close();
+	if (!file.is_open())
+		std::cout << "File opening error\t" << path << endl;
+
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++)
+			file.read((char*)&(matrix[i][j]), sizeof(**matrix));
+	file.close();
 }
+
+
 
 char* Matrix::ToString(Matrix& cc)
 {
@@ -198,9 +187,6 @@ void Matrix::CreateMatrix(const int rows, const int cols)
 {
 	if (rows > 0 && cols > 0)
 	{
-		counter++;
-		ID = counter;
-
 		matrix = new int* [rows];
 		for (int i = 0; i < rows; i++)
 			matrix[i] = new int[cols];

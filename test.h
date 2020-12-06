@@ -7,118 +7,232 @@
 
 int sum(Matrix& cc); // Adds all the values in the matrix and returns the sum.
 
-bool test() // Main function.
+bool test1() // +
 {
-	Matrix squareMatrix(3);
-	squareMatrix[0][0] = 0; squareMatrix[0][1] = 1; squareMatrix[0][2] = 2; // 0  1  2
-	squareMatrix[1][0] = 3; squareMatrix[1][1] = 4; squareMatrix[1][2] = 5; // 3  4  5
-	squareMatrix[2][0] = 6; squareMatrix[2][1] = 7; squareMatrix[2][2] = 8; // 6  7  8
-	if (sum(squareMatrix) != 36)
-	{
-		cout << "Test #1 failed..."<< sum(squareMatrix) << endl;
-		return false;
-	}
+	Matrix squareM1(3);
+	Matrix squareM2(3);
 
-	IdentityMatrix iMatrix(3);
-	if (sum(iMatrix) != 3)
-	{
-		cout << "Test #2 failed..." << endl;
-		return false;
-	}
+	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			squareM1[i][j] = val;           // 6  7  8
+	//cout << squareM1 << endl;
 
-	RectangularMatrix m1(2, 3);
-	RectangularMatrix m2(3, 2);
-	RectangularMatrix m3(3, 2);
-	m1[0][0] = 0; m1[0][1] = 0; m1[0][2] = 0; // 0  0  0
-	m1[1][0] = 0; m1[1][1] = 0; m1[1][2] = 0; // 0  0  0
-	//cout << m1 << endl;
-	m2[0][0] = 1; m2[0][1] = 2; // 1  2
-	m2[1][0] = 3; m2[1][1] = 4; // 3  4
-	m2[2][0] = 5; m2[2][1] = 6; // 5  6
-	//cout << m2 << endl;
+	for (int i = 0, val = 0; i < 3; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			squareM2[i][j] = val;           //-6 -7 -8
+	//cout << squareM2 << endl;
 
-	// Testing basic functions.
-
-	// Getter
-	if ((m1[0][0] != 0) || (m2[0][0] != 1))
+	squareM1 = squareM1 + squareM2;
+	//cout << sum(squareM1);
+	if (sum(squareM1) != 0)
 		return false;
 
-	// Getter of size
-	if ((m1.GetCols() != 3) || (m2.GetRows() != 3))
-		return false;
-
-	// Setter
-	m3[0][0] = 128;
-	if (m3[0][0] != 128)
-		return false;
-
-	// Test 1 
-	// Addition of matrices
-
-	m1 = m1 + m2;
-
-	if (sum(m1) != 0) // Target value 81
-	{
-		cout << "Test #3 failed..." << endl;
-		return false;
-	}
-
-	for (int i = 0; i < 2; i++)       // 0  0  0
-		for (int j = 0; j < 3; j++)   // 0  0  0
-			m1[i][j] = 0;       
-	//cout << "M1\n" << m1 << endl;
-
-	for (int i = 0; i < 3; i++)       // 1  1
-		for (int j = 0; j < 2; j++)   // 1  1
-			m2[i][j] = 1;             // 1  1 
-	//cout << "M2\n" << m2 << endl;
-
-	for (int i = 0; i < 3; i++)       // 0  0
-		for (int j = 0; j < 2; j++)   // 1  1
-			m3[i][j] = i;             // 2  2
-	//cout << "M3\n" <<m3 << endl;
-
-	// Test 2
-	// Subtraction of matrices
+	IdentityMatrix identityM1(3);
 	
-	m2 = m2 - m3;
-
-	if (sum(m2) != 0) // Target value 0
-	{
-		cout << "Test #4 failed..." << endl;
+	squareM1 = squareM1 + identityM1;
+	//cout << sum(squareM1);
+	if (sum(squareM1) != 3)
 		return false;
-	}
 
-	// Test 3
-	// Assigning values of the 2nd matrix to the 1st matrix.
+	RectangularMatrix rectangueM1(2, 3);
+	RectangularMatrix rectangueM2(2, 3);
 
-	//m1 = m2;
+	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			rectangueM1[i][j] = val;
+	//cout << rectangueM1 << endl;
 
-	if (sum(m1) != 0) // Target value 0
-	{
-		cout << "Test #5 failed..." << endl;
+	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			rectangueM2[i][j] = val;
+	//cout << rectangueM2 << endl;
+
+	rectangueM1 = rectangueM1 + rectangueM2;
+	//cout << sum(rectangueM1);
+	if (sum(rectangueM1) != 0)
 		return false;
-	}
 
-	// Special case
+	// Special cases
 
-	// Test 5
-	// Creating a matrix with negative sizes.
+	squareM1 = squareM1 + rectangueM1;
+	if (sum(squareM1) != 3)
+		return false;
 
-	Matrix m4(-1);
-	Matrix m5(0);
+	squareM1 = squareM1 + rectangueM2;
+	if (sum(squareM1) != 3)
+		return false;
 
-	// Test 6
-	// Addition and subtraction matrices with negative size.
+	rectangueM1 = rectangueM1 + squareM1;
+	if (sum(rectangueM1) != 0)
+		return false;
 
-	m4 = m4 + m5;
-	m4 = m4 - m5;
+	rectangueM1 = rectangueM1 + squareM2;
+	if (sum(rectangueM1) != 0)
+		return false;
 
-	// Test 7
-	// Addition and subtraction matrices with different sizes.
+	return true;
+}
 
-	m1 = m1 + m4;
-	m1 = m1 - m4;
+bool test2() // -
+{
+	Matrix squareM1(3);
+	Matrix squareM2(3);
+
+	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			squareM1[i][j] = val;           // 6  7  8
+	//cout << squareM1 << endl;
+
+	for (int i = 0, val = 0; i < 3; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			squareM2[i][j] = val;           //-6 -7 -8
+	//cout << squareM2 << endl;
+
+	squareM1 = squareM1 - squareM2;
+	//cout << sum(squareM1);
+	if (sum(squareM1) != 72)
+		return false;
+
+	IdentityMatrix identityM1(3);
+
+	squareM1 = squareM1 - identityM1;
+	//cout << sum(squareM1);
+	if (sum(squareM1) != 69)
+		return false;
+
+	RectangularMatrix rectangueM1(2, 3);
+	RectangularMatrix rectangueM2(2, 3);
+
+	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			rectangueM1[i][j] = val;
+	//cout << rectangueM1 << endl;
+
+	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			rectangueM2[i][j] = val;
+	//cout << rectangueM2 << endl;
+
+	rectangueM1 = rectangueM1 - rectangueM2;
+	//cout << sum(rectangueM1);
+	if (sum(rectangueM1) != 30)
+		return false;
+
+	// Special cases
+
+	squareM1 = squareM1 + rectangueM1;
+	if (sum(squareM1) != 69)
+		return false;
+
+	squareM1 = squareM1 + rectangueM2;
+	if (sum(squareM1) != 69)
+		return false;
+
+	rectangueM1 = rectangueM1 + squareM1;
+	if (sum(rectangueM1) != 30)
+		return false;
+
+	rectangueM1 = rectangueM1 + squareM2;
+	if (sum(rectangueM1) != 30)
+		return false;
+
+	return true;
+}
+
+bool test3() // *
+{
+	RectangularMatrix rectangueM1(2, 3);
+	RectangularMatrix rectangueM2(2, 3);
+	RectangularMatrix rectangueM3(3, 2);
+
+	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			rectangueM1[i][j] = val;
+	//cout << rectangueM1 << endl;
+
+	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			rectangueM2[i][j] = val;
+	//cout << rectangueM2 << endl;
+
+	for (int i = 0, val = 0; i < 3; i++)    // 0  1
+		for (int j = 0; j < 2; j++, val++)  // 2  3
+			rectangueM3[i][j] = val;        // 4  5
+	//cout << rectangueM3 << endl;
+
+	rectangueM1 = rectangueM1 * rectangueM2;
+	if (sum(rectangueM1) != 15)
+		return false;
+
+	rectangueM1 = rectangueM1 * rectangueM3;
+	if (sum(rectangueM1) != 91)
+		return false;
+
+	return true;
+}
+
+bool test4() // =
+{
+	Matrix squareM1(3);
+	Matrix squareM2(3);
+
+	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			squareM1[i][j] = val;           // 6  7  8
+	//cout << squareM1 << endl;
+
+	for (int i = 0, val = 0; i < 3; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			squareM2[i][j] = val;           //-6 -7 -8
+	//cout << squareM2 << endl;
+
+	squareM1 = squareM2;
+	//cout << sum(squareM1);
+	if (sum(squareM1) != -36)
+		return false;
+
+	IdentityMatrix identityM1(3);
+
+	squareM1 = identityM1;
+	//cout << sum(squareM1);
+	if (sum(squareM1) != 3)
+		return false;
+
+	RectangularMatrix rectangueM1(2, 3);
+	RectangularMatrix rectangueM2(2, 3);
+
+	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
+		for (int j = 0; j < 3; j++, val++)  // 3  4  5
+			rectangueM1[i][j] = val;
+	//cout << rectangueM1 << endl;
+
+	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
+		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
+			rectangueM2[i][j] = val;
+	//cout << rectangueM2 << endl;
+
+	rectangueM1 = rectangueM2;
+	//cout << sum(rectangueM1);
+	if (sum(rectangueM1) != -15)
+		return false;
+
+	// Special cases
+
+	squareM1 = rectangueM1;
+	if (sum(squareM1) != 3)
+		return false;
+
+	squareM1 = rectangueM2;
+	if (sum(squareM1) != 3)
+		return false;
+
+	rectangueM1 = squareM1;
+	if (sum(rectangueM1) != -15)
+		return false;
+
+	rectangueM1 = squareM2;
+	if (sum(rectangueM1) != -15)
+		return false;
 
 	return true;
 }
