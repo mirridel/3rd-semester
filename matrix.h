@@ -16,17 +16,15 @@ public:
 	~Matrix();
 
 	friend std::ostream& operator<< (std::ostream& os, Matrix& cc);
-	friend std::ofstream& operator<< (std::ofstream& ofs, Matrix& cc);
+	friend std::fstream& operator<< (std::fstream& ofs, Matrix& cc);
 	friend std::istream& operator>> (std::istream& is, Matrix& cc);
-	friend std::ifstream& operator>> (std::ifstream& ifs, Matrix& cc);
+	friend std::fstream& operator>> (std::fstream& ifs, Matrix& cc);
 
-	void WriteToFile(char* path, std::fstream& file); // Writing from file
-	void ReadFromFile(char* path, std::fstream& file); // Reading from file
-	void WriteToBinFile(char* path, std::fstream& file); // Writing from binary fil
-	void ReadFromBinFile(char* path, std::fstream& file); // Reading from binary file
+	void WriteToBinFile(std::fstream& file); // Writing from binary fil
+	void ReadFromBinFile(std::fstream& file); // Reading from binary file
 
 
-	char* ToString(Matrix& cc); // Function that returns a matrix as a string
+	char* ToString(); // Function that returns a matrix as a string
 	
 	//Getters and setters
 	int GetRows() { return rows; };

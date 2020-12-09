@@ -12,11 +12,8 @@ int main()
 {
 	test();
 
-	char Path[] = "text.txt";
-	char BinPath[] = "file.dat";
-
-	std::fstream File(Path);
-	std::fstream BinFile(BinPath);
+	std::fstream File("text.txt", std::ios_base::out | std::ios_base::in);
+	std::fstream BinFile("file.dat", std::ios_base::out | std::ios_base::in | std::ios_base::binary);
 
 	cout << "Square matrix:" << endl;
 	Matrix squareMatrix(3);
@@ -32,7 +29,8 @@ int main()
 	RectangularMatrix m3(3, 2);
 	cout << m1 << "\n" << m2 << "\n" << m3 << endl;
 
-	m2.WriteToFile(Path, File);
+	File << m1;
+	m2.WriteToBinFile(BinFile);
 
 	cout << "squareMatrix = squareMatrix + identityMatrix" << endl;
 	squareMatrix = squareMatrix + identityMatrix;
@@ -53,9 +51,6 @@ int main()
 	cout << "m1 = m1 * m2" << endl;
 	m1 = m1 * m2;
 	cout << m1 << endl;
-
-	m1.ReadFromFile(Path, File);
-	cout << m2 << endl;
 
 	return 0;
 };

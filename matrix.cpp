@@ -38,7 +38,11 @@ std::ostream& operator << (std::ostream& os, Matrix& cc)
 	return os;
 };
 
-std::ofstream& operator << (std::ofstream& ofs, Matrix& cc) {
+std::fstream& operator << (std::fstream& ofs, Matrix& cc) {
+
+	ofs.clear();
+
+	ofs.seekg(0, std::ios_base::beg);
 
 	for (int i = 0; i < cc.rows; i++)
 	{
@@ -58,67 +62,44 @@ std::istream& operator >> (std::istream& is, Matrix& cc)
 	return is;
 }
 
-std::ifstream& operator >> (std::ifstream& ifs, Matrix& cc)
+std::fstream& operator >> (std::fstream& ifs, Matrix& cc)
 {
+	ifs.seekg(0, std::ios_base::beg);
+
 	for (int i = 0; i < cc.rows; i++)
 		for (int j = 0; j < cc.cols; j++)
 			ifs >> cc.matrix[i][j];
 	return ifs;
 }
 
-void Matrix::WriteToFile(char* path, std::fstream& file)
+void Matrix::WriteToBinFile(std::fstream& file) // Write to binary file
 {
-	file.open(path, std::ios_base::out);
-
 	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
+		std::cout << "File opening error\t" << endl;
 
 	file.clear();
-	file << *this;
-	file.close();
-}
+	file.seekg(0, std::ios_base::beg);
 
-void Matrix::ReadFromFile(char* path, std::fstream& file)
-{
-	file.open(path, std::ios_base::in);
-
-	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
-
-	file >> *this;
-	file.close();
-}
-
-void Matrix::WriteToBinFile(char* path, std::fstream& file) // Write to binary file
-{
-	file.open(path, std::ios_base::out | std::ios_base::binary);
-
-	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
-
-	file.clear();
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			file.write((char*)&(matrix[i][j]), sizeof(**matrix));
-	file.close();
 }
 
-void Matrix::ReadFromBinFile(char* path, std::fstream& file) // Read from binary file
+void Matrix::ReadFromBinFile(std::fstream& file) // Read from binary file
 {
-	file.open(path, std::ios_base::in | std::ios_base::binary);
-
 	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
+		std::cout << "File opening error\t" << endl;
+
+	file.seekg(0, std::ios_base::beg);
 
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			file.read((char*)&(matrix[i][j]), sizeof(**matrix));
-	file.close();
 }
 
 
 
-char* Matrix::ToString(Matrix& cc)
+char* Matrix::ToString()
 {
 	if (rows != 0 && cols != 0)
 	{
@@ -126,12 +107,12 @@ char* Matrix::ToString(Matrix& cc)
 
 		buff[0] = '\0';
 
-		for (int i = 0; i < cc.rows; i++)
+		for (int i = 0; i < rows; i++)
 		{
-			for (int j = 0; j < cc.cols; j++)
+			for (int j = 0; j < cols; j++)
 			{
 				char subBuff[16] = "";
-				_itoa(cc.matrix[i][j], subBuff, 10);
+				_itoa(matrix[i][j], subBuff, 10);
 				strcat(subBuff, "\t");
 				strcat(buff, subBuff);
 			}
