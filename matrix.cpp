@@ -50,8 +50,12 @@ std::ostream& operator << (std::ostream& os, Matrix& cc)
 	return os;
 }
 
-std::ofstream& operator << (std::ofstream& ofs, Matrix& other)
+std::fstream& operator << (std::fstream& ofs, Matrix& other)
 {
+	ofs.clear();
+
+	ofs.seekg(0, std::ios_base::beg);
+
 	for (int i = 0; i < other.size; i++)
 	{
 		for (int j = 0; j < other.size; j++)
@@ -79,71 +83,42 @@ std::istream& operator >> (std::istream& is, Matrix& cc)
 	return is;
 }
 
-std::ifstream& operator >> (std::ifstream& ifs, Matrix& cc)
+std::fstream& operator >> (std::fstream& ifs, Matrix& cc)
 {
+	ifs.seekg(0, std::ios_base::beg);
+
 	for (int i = 0; i < cc.size; i++)
 		for (int j = 0; j < cc.size; j++)
 			ifs >> cc.matrix[i][j];
 	return ifs;
 }
 
-void Matrix::WriteToFile(char* path,  std::fstream& file)
+void Matrix::WriteToBinFile(std::fstream& file) // Write to binary file
 {
-	file.open(path, std::ios_base::out);
-
 	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
+		std::cout << "File opening error\t" << endl;
 
 	file.clear();
 
-	file << *this;
-
-	file.close();
-}
-
-void Matrix::ReadFromFile(char* path, std::fstream& file)
-{
-	file.open(path, std::ios_base::in);
-
-	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
-
-	file >> *this;
-
-	file.close();
-}
-
-void Matrix::WriteToBinFile(char* path, std::fstream& file) // Write to binary file
-{
-	file.open(path, std::ios_base::out | std::ios_base::binary);
-
-	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
-
-	file.clear();
+	file.seekg(0, std::ios_base::beg);
 
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
 			file.write((char*)&(matrix[i][j]), sizeof(**matrix));
-
-	file.close();
 }
 
-void Matrix::ReadFromBinFile(char* path, std::fstream& file) // Read from binary file
+void Matrix::ReadFromBinFile(std::fstream& file) // Read from binary file
 {
-	file.open(path, std::ios_base::in | std::ios_base::binary);
-
 	if (!file.is_open())
-		std::cout << "File opening error\t" << path << endl;
+		std::cout << "File opening error\t" << endl;
+	
+	file.seekg(0, std::ios_base::beg);
 
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
 		{
 			file.read((char*)&(matrix[i][j]), sizeof(**matrix));
 		}
-			
-
-	file.close();
 }
 
 void Matrix::PushMatrix()
@@ -153,20 +128,20 @@ void Matrix::PushMatrix()
 			matrix[i][j] = rand() % 10;
 }
 
-char* Matrix::ToString(Matrix& cc)
+char* Matrix::ToString()
 {
-	if (cc.size != 0)
+	if (size != 0)
 	{
 		char* buff = new char[128];
 
 		buff[0] = '\0';
 
-		for (int i = 0; i < cc.size; i++)
+		for (int i = 0; i < size; i++)
 		{
-			for (int j = 0; j < cc.size; j++)
+			for (int j = 0; j < size; j++)
 			{
 				char subBuff[16] = "";
-				_itoa(cc.matrix[i][j], subBuff, 10);
+				_itoa(matrix[i][j], subBuff, 10);
 				strcat(subBuff, "\t");
 				strcat(buff, subBuff);
 			}
@@ -176,21 +151,15 @@ char* Matrix::ToString(Matrix& cc)
 	}
 }
 
-int& Matrix::operator()(int x, int y) // Getter
+void Matrix::operator()(int x, int y, int data) // Setter
 {
 	if ((x >= 0 && x < size) && (y >= 0 && y < size))
-		return (matrix[x][y]);
+		matrix[x][y] = data;
 }
 
 int Matrix::GetSize() // Getter of size
 {
 	return this->size;
-}
-
-void Matrix::operator()(int x, int y, int data) // Setter
-{
-	if ((x >= 0 && x < size) && (y >= 0 && y < size))
-		matrix[x][y] = data;
 }
 
 Matrix& Matrix::operator=(const Matrix& other)

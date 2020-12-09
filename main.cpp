@@ -17,11 +17,8 @@ int main()
 
 	Matrix m1(3), m2(3);
 
-	char Path[] = "text.txt";
-	char BinPath[] = "file.dat";
-
-	std::fstream File(Path);
-	std::fstream BinFile(BinPath);
+	std::fstream File("text.txt", std::ios_base::out | std::ios_base::in);
+	std::fstream BinFile("file.dat", std::ios_base::out | std::ios_base::in | std::ios_base::binary);
 
 	cout << "Original matrices x1:" << endl;
 	m1.PushMatrix();
@@ -29,16 +26,16 @@ int main()
 	m2.PushMatrix();
 	cout << m2 << endl;
 
-	m1.WriteToFile(Path, File);
-    m2.WriteToBinFile(BinPath, BinFile);
+	File << m1;
+    m2.WriteToBinFile(BinFile);
 
 	m1 = m1 + m2;
 	cout << "m1 = m1 + m2:" << endl;
 	cout << m1 << endl;
 
 	cout << "Reading from file:" << endl;
-	m1.ReadFromFile(Path, File);
-	m2.ReadFromBinFile(BinPath, BinFile);
+	File >> m1;
+	m2.ReadFromBinFile(BinFile);
 
 	cout << "Original matrices x2:" << endl;
 	cout << m1 << endl;
@@ -49,8 +46,8 @@ int main()
 	cout << m2 << endl;
 
 	cout << "Reading from file:" << endl;
-	m1.ReadFromFile(Path, File);
-	m2.ReadFromBinFile(BinPath, BinFile);
+	File >> m1;
+	m2.ReadFromBinFile(BinFile);
 
 	cout << "Original matrices x3:" << endl;
 	cout << m1 << endl;
