@@ -97,8 +97,6 @@ void Matrix::ReadFromBinFile(std::fstream& file) // Read from binary file
 			file.read((char*)&(matrix[i][j]), sizeof(**matrix));
 }
 
-
-
 char* Matrix::ToString()
 {
 	if (rows != 0 && cols != 0)

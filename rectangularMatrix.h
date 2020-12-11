@@ -11,6 +11,8 @@ public:
 	RectangularMatrix(const RectangularMatrix& cc) : Matrix(cc) {};
 	~RectangularMatrix() {};
 
+	char* ToString();
+
 	RectangularMatrix&
 		operator=(const RectangularMatrix& other);
 

@@ -8,6 +8,29 @@ RectangularMatrix(const int rows, const int cols) {
 	FillMatrix();
 };
 
+char* RectangularMatrix::ToString()
+{
+	if (rows != 0 && cols != 0)
+	{
+		char* buff = new char[128];
+
+		buff[0] = '\0';
+
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < cols; j++)
+			{
+				char subBuff[16] = "";
+				_itoa(matrix[i][j], subBuff, 10);
+				strcat(subBuff, "\t");
+				strcat(buff, subBuff);
+			}
+			strcat(buff, "\n");
+		}
+		return buff;
+	}
+}
+
 RectangularMatrix& RectangularMatrix::
 operator=(const RectangularMatrix& second)
 {
