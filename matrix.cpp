@@ -1,14 +1,18 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "matrix.h"
 
-static int counter = 0;
-
-Matrix::Matrix() {};
-
 Matrix::Matrix(int size)
 {
 	this->rows = size;
 	this->cols = size;
+	CreateMatrix(this->rows, this->cols);
+	FillMatrix();
+};
+
+Matrix::Matrix(const int X, const int Y)
+{
+	this->rows = X;
+	this->cols = Y;
 	CreateMatrix(this->rows, this->cols);
 	FillMatrix();
 };
@@ -95,70 +99,6 @@ void Matrix::ReadFromBinFile(std::fstream& file) // Read from binary file
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			file.read((char*)&(matrix[i][j]), sizeof(**matrix));
-}
-
-char* Matrix::ToString()
-{
-	if (rows != 0 && cols != 0)
-	{
-		//cout << "This is virtual function" << endl;
-		char* buff = new char[128];
-		buff[0] = '\0';
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				char subBuff[16] = "";
-				_itoa(matrix[i][j], subBuff, 10);
-				strcat(subBuff, "\t");
-				strcat(buff, subBuff);
-			}
-			strcat(buff, "\n");
-		}
-		return buff;
-	}
-}
-
-Matrix& Matrix::operator=(const Matrix& second)
-{
-	if (this->cols == second.cols &&
-		this->rows == second.rows &&
-		this->cols > 0 && this->rows > 0 &&
-		second.cols > 0 && second.rows > 0)
-	{
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < cols; j++)
-				this->matrix[i][j] = second.matrix[i][j];
-	}
-	return *this;
-}
-
-Matrix& operator+(Matrix& first, const Matrix& second)
-{
-	if ((first.cols == second.cols) &&
-		(first.rows == second.rows) &&
-		(first.cols > 0 && first.rows > 0) &&
-		(second.cols > 0 && second.rows > 0))
-	{
-		for (int i = 0; i < first.rows; i++)
-			for (int j = 0; j < first.cols; j++)
-				first.matrix[i][j] += second.matrix[i][j];
-	}
-	return *&first;
-}
-
-Matrix& operator-(Matrix& first, const Matrix& second)
-{
-	if ((first.cols == second.cols) &&
-		(first.rows == second.rows) &&
-		(first.cols > 0 && first.rows > 0) &&
-		(second.cols > 0 && second.rows > 0))
-	{
-		for (int i = 0; i < first.rows; i++)
-			for (int j = 0; j < first.cols; j++)
-				first.matrix[i][j] -= second.matrix[i][j];
-	}
-	return *&first;
 }
 
 void Matrix::CreateMatrix(const int rows, const int cols)

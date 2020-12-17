@@ -1,19 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "rectangularMatrix.h"
 
-RectangularMatrix::
-RectangularMatrix(const int rows, const int cols) {
-	this->rows = rows;
-	this->cols = cols;
-	CreateMatrix(rows, cols);
-	FillMatrix();
-};
-
 char* RectangularMatrix::ToString()
 {
-	if (rows != 0 && cols != 0)
+	if (rows > 0 && cols > 0)
 	{
-		//cout << "This is override function" << endl;
+		//cout << "Rectangular Matrix" << endl;
 		char* buff = new char[128];
 		buff[0] = '\0';
 		for (int i = 0; i < rows; i++)

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "matrix.h"
+#include "squareMatrix.h"
 #include "rectangularMatrix.h"
 
 struct Elem

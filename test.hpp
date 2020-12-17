@@ -2,15 +2,15 @@
 #define TEST_H
 
 #include "matrix.h"
-#include "identityMatrix.h"
+#include "squareMatrix.h"
 #include "rectangularMatrix.h"
 
 int sum(Matrix& cc); // Adds all the values in the matrix and returns the sum.
 
 bool test1() // +
 {
-	Matrix squareM1(3);
-	Matrix squareM2(3);
+	SquareMatrix squareM1(3);
+	SquareMatrix squareM2(3);
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
@@ -25,13 +25,6 @@ bool test1() // +
 	squareM1 = squareM1 + squareM2;
 	//cout << sum(squareM1);
 	if (sum(squareM1) != 0)
-		return false;
-
-	IdentityMatrix identityM1(3);
-	
-	squareM1 = squareM1 + identityM1;
-	//cout << sum(squareM1);
-	if (sum(squareM1) != 3)
 		return false;
 
 	RectangularMatrix rectangueM1(2, 3);
@@ -52,31 +45,13 @@ bool test1() // +
 	if (sum(rectangueM1) != 0)
 		return false;
 
-	// Special cases
-
-	squareM1 = squareM1 + rectangueM1;
-	if (sum(squareM1) != 3)
-		return false;
-
-	squareM1 = squareM1 + rectangueM2;
-	if (sum(squareM1) != 3)
-		return false;
-
-	rectangueM1 = rectangueM1 + squareM1;
-	if (sum(rectangueM1) != 0)
-		return false;
-
-	rectangueM1 = rectangueM1 + squareM2;
-	if (sum(rectangueM1) != 0)
-		return false;
-
 	return true;
 }
 
 bool test2() // -
 {
-	Matrix squareM1(3);
-	Matrix squareM2(3);
+	SquareMatrix squareM1(3);
+	SquareMatrix squareM2(3);
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
@@ -91,13 +66,6 @@ bool test2() // -
 	squareM1 = squareM1 - squareM2;
 	//cout << sum(squareM1);
 	if (sum(squareM1) != 72)
-		return false;
-
-	IdentityMatrix identityM1(3);
-
-	squareM1 = squareM1 - identityM1;
-	//cout << sum(squareM1);
-	if (sum(squareM1) != 69)
 		return false;
 
 	RectangularMatrix rectangueM1(2, 3);
@@ -115,24 +83,6 @@ bool test2() // -
 
 	rectangueM1 = rectangueM1 - rectangueM2;
 	//cout << sum(rectangueM1);
-	if (sum(rectangueM1) != 30)
-		return false;
-
-	// Special cases
-
-	squareM1 = squareM1 + rectangueM1;
-	if (sum(squareM1) != 69)
-		return false;
-
-	squareM1 = squareM1 + rectangueM2;
-	if (sum(squareM1) != 69)
-		return false;
-
-	rectangueM1 = rectangueM1 + squareM1;
-	if (sum(rectangueM1) != 30)
-		return false;
-
-	rectangueM1 = rectangueM1 + squareM2;
 	if (sum(rectangueM1) != 30)
 		return false;
 
@@ -173,8 +123,8 @@ bool test3() // *
 
 bool test4() // =
 {
-	Matrix squareM1(3);
-	Matrix squareM2(3);
+	SquareMatrix squareM1(3);
+	SquareMatrix squareM2(3);
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
@@ -189,13 +139,6 @@ bool test4() // =
 	squareM1 = squareM2;
 	//cout << sum(squareM1);
 	if (sum(squareM1) != -36)
-		return false;
-
-	IdentityMatrix identityM1(3);
-
-	squareM1 = identityM1;
-	//cout << sum(squareM1);
-	if (sum(squareM1) != 3)
 		return false;
 
 	RectangularMatrix rectangueM1(2, 3);
@@ -213,24 +156,6 @@ bool test4() // =
 
 	rectangueM1 = rectangueM2;
 	//cout << sum(rectangueM1);
-	if (sum(rectangueM1) != -15)
-		return false;
-
-	// Special cases
-
-	squareM1 = rectangueM1;
-	if (sum(squareM1) != 3)
-		return false;
-
-	squareM1 = rectangueM2;
-	if (sum(squareM1) != 3)
-		return false;
-
-	rectangueM1 = squareM1;
-	if (sum(rectangueM1) != -15)
-		return false;
-
-	rectangueM1 = squareM2;
 	if (sum(rectangueM1) != -15)
 		return false;
 

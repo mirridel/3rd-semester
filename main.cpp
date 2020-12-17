@@ -1,5 +1,6 @@
 ﻿#include "list.h"
 #include "matrix.h"
+#include "squareMatrix.h"
 #include "rectangularMatrix.h"
 #include "test.hpp"
 #include <iostream>
@@ -13,25 +14,39 @@ void main()
     List L;
 
     Matrix* p;
-    Matrix m1(2), m2(2), m3(2);
-
+    
+    SquareMatrix m1(2), m2(2), m3(3);
     RectangularMatrix M(2, 3);
 
     test();
 
     p = &m1;
+    p->PrintName();
     cout << p->ToString() << endl;
     p = &m2;
+    p->PrintName();
     cout << p->ToString() << endl;
     p = &m3;
+    p->PrintName();
     cout << p->ToString() << endl;
     p = &M;
+    p->PrintName();
     cout << p->ToString() << endl;
+    
+    //cout << m1 << endl;
+    //cout << m2 << endl;
+    //cout << m3 << endl;
+    //cout << M << endl;
 
     L.AddTail(m1);
     L.AddTail(m2);
     L.AddTail(m3);
 
+    // Распечатка списка
+    std::cout << "List L:\n";
+    L.Print();
+
+    // Вставка
     L.Insert(M, 1);
 
     // Распечатка списка
