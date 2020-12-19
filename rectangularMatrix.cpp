@@ -1,19 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "rectangularMatrix.h"
 
-RectangularMatrix::
-RectangularMatrix(const int rows, const int cols) {
-	this->rows = rows;
-	this->cols = cols;
-	CreateMatrix(rows, cols);
-	FillMatrix();
-};
-
 char* RectangularMatrix::ToString()
 {
-	if (rows != 0 && cols != 0)
+	if (rows > 0 && cols > 0)
 	{
-		//cout << "This is override function" << endl;
+		//cout << "Rectangular Matrix" << endl;
 		char* buff = new char[128];
 		buff[0] = '\0';
 		for (int i = 0; i < rows; i++)
@@ -44,9 +36,8 @@ operator=(const RectangularMatrix& second)
 				this->matrix[i][j] = second.matrix[i][j];
 		return *this;
 	}
-	else {
-		throw(std::exception("(=) size error"));
-	}
+	else
+		throw (std::exception("(=) size error"));
 }
 
 RectangularMatrix& operator+(RectangularMatrix& first, RectangularMatrix& second)
@@ -61,9 +52,8 @@ RectangularMatrix& operator+(RectangularMatrix& first, RectangularMatrix& second
 				first.matrix[i][j] += second.matrix[i][j];
 		return *&first;
 	}
-	else {
-		throw(std::exception("(-) size error"));
-	}
+	else
+		throw (std::exception("(+) size error"));
 };
 
 RectangularMatrix& operator-(RectangularMatrix& first, RectangularMatrix& second)
@@ -78,10 +68,8 @@ RectangularMatrix& operator-(RectangularMatrix& first, RectangularMatrix& second
 				first.matrix[i][j] -= second.matrix[i][j];
 		return *&first;
 	}
-	else {
-		throw(std::exception("(+) size error"));
-	}
-	
+	else
+		throw (std::exception("(-) size error"));
 };
 
 RectangularMatrix& operator*(RectangularMatrix& first, RectangularMatrix& second)
@@ -119,9 +107,9 @@ RectangularMatrix& operator*(RectangularMatrix& first, RectangularMatrix& second
 		for (int i = 0; i < first.rows; i++)
 			for (int j = 0; j < first.cols; j++)
 				first.matrix[i][j] = buffer.matrix[i][j];
+
 		return *&first;
 	}
-	else {
-		throw(std::exception("(*) size error"));
-	}
+	else
+		throw (std::exception("(*) size error"));
 };

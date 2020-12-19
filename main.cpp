@@ -1,5 +1,6 @@
 ﻿#include "list.h"
 #include "matrix.h"
+#include "squareMatrix.h"
 #include "rectangularMatrix.h"
 #include "test.hpp"
 #include <iostream>
@@ -13,7 +14,7 @@ void main()
     List L;
 
     Matrix* p;
-    Matrix m1(2), m2(2), m3(2), m4(5);
+    SquareMatrix m1(2), m2(2), m3(2), m4(5);
 
     RectangularMatrix M(2, 3);
 

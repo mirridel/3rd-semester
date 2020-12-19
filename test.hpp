@@ -2,61 +2,49 @@
 #define TEST_H
 
 #include "matrix.h"
-#include "identityMatrix.h"
+#include "squareMatrix.h"
 #include "rectangularMatrix.h"
 
 int sum(Matrix& cc); // Adds all the values in the matrix and returns the sum.
 
 bool test1() // +
 {
-	Matrix squareM1(3);
-	Matrix squareM2(3);
+	SquareMatrix m1(3);
+	SquareMatrix m2(3);
+	SquareMatrix m3(6);
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
-			squareM1[i][j] = val;           // 6  7  8
-	//cout << squareM1 << endl;
+			m1[i][j] = val;					// 6  7  8
+	//cout << m1 << endl;
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0 -1 -2
 		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
-			squareM2[i][j] = val;           //-6 -7 -8
-	//cout << squareM2 << endl;
+			m2[i][j] = val;					//-6 -7 -8
+	//cout << m2 << endl;
 
-	squareM1 = squareM1 + squareM2;
+	m1 = m1 + m2;
 	//cout << sum(squareM1);
-	if (sum(squareM1) != 0)
+	if (sum(m1) != 0)
 		return false;
 
-	IdentityMatrix identityM1(3);
-	
-	squareM1 = squareM1 + identityM1;
-	//cout << sum(squareM1);
-	if (sum(squareM1) != 3)
-		return false;
-
-	RectangularMatrix rectangueM1(2, 3);
-	RectangularMatrix rectangueM2(2, 3);
+	RectangularMatrix M1(2, 3);
+	RectangularMatrix M2(2, 3);
+	RectangularMatrix M3(3, 4);
 
 	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
-			rectangueM1[i][j] = val;
+			M1[i][j] = val;
 	//cout << rectangueM1 << endl;
 
 	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
 		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
-			rectangueM2[i][j] = val;
-	//cout << rectangueM2 << endl;
-
-	rectangueM1 = rectangueM1 + rectangueM2;
-	//cout << sum(rectangueM1);
-	if (sum(rectangueM1) != 0)
-		return false;
-
-	// Special cases
+			M2[i][j] = val;
+	//cout << M2 << endl;
 
 	try
 	{
-		squareM1 = squareM1 + rectangueM1;
+		m1 = m1 + m3;
 	}
 	catch (const std::exception& ex)
 	{
@@ -65,7 +53,7 @@ bool test1() // +
 	
 	try
 	{
-		squareM1 = squareM1 + rectangueM2;
+		m3 = m3 + m1;
 	}
 	catch (const std::exception& ex)
 	{
@@ -74,7 +62,7 @@ bool test1() // +
 
 	try
 	{
-		rectangueM1 = rectangueM1 + squareM1;
+		M1 = M1 + M3;
 	}
 	catch (const std::exception& ex)
 	{
@@ -83,7 +71,7 @@ bool test1() // +
 
 	try
 	{
-		rectangueM1 = rectangueM1 + squareM2;
+		M3 = M3 + M1;
 	}
 	catch (const std::exception& ex)
 	{
@@ -95,54 +83,49 @@ bool test1() // +
 
 bool test2() // -
 {
-	Matrix squareM1(3);
-	Matrix squareM2(3);
+	SquareMatrix m1(3);
+	SquareMatrix m2(3);
+	SquareMatrix m3(6);
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
-			squareM1[i][j] = val;           // 6  7  8
+			m1[i][j] = val;           // 6  7  8
 	//cout << squareM1 << endl;
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0 -1 -2
 		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
-			squareM2[i][j] = val;           //-6 -7 -8
+			m2[i][j] = val;           //-6 -7 -8
 	//cout << squareM2 << endl;
 
-	squareM1 = squareM1 - squareM2;
+	m1 = m1 - m2;
 	//cout << sum(squareM1);
-	if (sum(squareM1) != 72)
+	if (sum(m1) != 72)
 		return false;
 
-	IdentityMatrix identityM1(3);
-
-	squareM1 = squareM1 - identityM1;
-	//cout << sum(squareM1);
-	if (sum(squareM1) != 69)
-		return false;
-
-	RectangularMatrix rectangueM1(2, 3);
-	RectangularMatrix rectangueM2(2, 3);
+	RectangularMatrix M1(2, 3);
+	RectangularMatrix M2(2, 3);
+	RectangularMatrix M3(4, 6);
 
 	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
-			rectangueM1[i][j] = val;
+			M1[i][j] = val;
 	//cout << rectangueM1 << endl;
 
 	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
 		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
-			rectangueM2[i][j] = val;
+			M2[i][j] = val;
 	//cout << rectangueM2 << endl;
 
-	rectangueM1 = rectangueM1 - rectangueM2;
+	M1 = M1 - M2;
 	//cout << sum(rectangueM1);
-	if (sum(rectangueM1) != 30)
+	if (sum(M1) != 30)
 		return false;
 
 	// Special cases
 
 	try
 	{
-		squareM1 = squareM1 - rectangueM1;
+		m1 = m1 - m3;
 	}
 	catch (const std::exception& ex)
 	{
@@ -151,7 +134,7 @@ bool test2() // -
 
 	try
 	{
-		squareM1 = squareM1 - rectangueM2;
+		m3 = m3 - m1;
 	}
 	catch (const std::exception& ex)
 	{
@@ -160,7 +143,7 @@ bool test2() // -
 
 	try
 	{
-		rectangueM1 = rectangueM1 - squareM1;
+		M1 = M1 - M3;
 	}
 	catch (const std::exception& ex)
 	{
@@ -169,7 +152,7 @@ bool test2() // -
 
 	try
 	{
-		rectangueM1 = rectangueM1 - squareM2;
+		M3 = M3 - M1;
 	}
 	catch (const std::exception& ex)
 	{
@@ -223,54 +206,54 @@ bool test3() // *
 
 bool test4() // =
 {
-	Matrix squareM1(3);
-	Matrix squareM2(3);
+	SquareMatrix m1(3);
+	SquareMatrix m2(3);
+	SquareMatrix m3(6);
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
-			squareM1[i][j] = val;           // 6  7  8
+			m1[i][j] = val;				    // 6  7  8
 	//cout << squareM1 << endl;
 
 	for (int i = 0, val = 0; i < 3; i++)    // 0 -1 -2
 		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
-			squareM2[i][j] = val;           //-6 -7 -8
+			m2[i][j] = val;					//-6 -7 -8
 	//cout << squareM2 << endl;
 
-	squareM1 = squareM2;
+	m1 = m1 - m2;
 	//cout << sum(squareM1);
-	if (sum(squareM1) != -36)
+	if (sum(m1) != 72)
 		return false;
 
-	IdentityMatrix identityM1(3);
-
-	squareM1 = identityM1;
+	m1 = m2;
 	//cout << sum(squareM1);
-	if (sum(squareM1) != 3)
+	if (sum(m1) != -36)
 		return false;
 
-	RectangularMatrix rectangueM1(2, 3);
-	RectangularMatrix rectangueM2(2, 3);
+	RectangularMatrix M1(2, 3);
+	RectangularMatrix M2(2, 3);
+	RectangularMatrix M3(4, 6);
 
 	for (int i = 0, val = 0; i < 2; i++)    // 0  1  2
 		for (int j = 0; j < 3; j++, val++)  // 3  4  5
-			rectangueM1[i][j] = val;
+			M1[i][j] = val;
 	//cout << rectangueM1 << endl;
 
 	for (int i = 0, val = 0; i < 2; i++)    // 0 -1 -2
 		for (int j = 0; j < 3; j++, val--)  //-3 -4 -5
-			rectangueM2[i][j] = val;
+			M2[i][j] = val;
 	//cout << rectangueM2 << endl;
 
-	rectangueM1 = rectangueM2;
+	M1 = M1 - M2;
 	//cout << sum(rectangueM1);
-	if (sum(rectangueM1) != -15)
+	if (sum(M1) != 30)
 		return false;
 
 	// Special cases
 
 	try
 	{
-		squareM1 = rectangueM1;
+		m1 = m3;
 	}
 	catch (const std::exception& ex)
 	{
@@ -279,7 +262,7 @@ bool test4() // =
 
 	try
 	{
-		squareM1 = rectangueM2;
+		m3 = m1;
 	}
 	catch (const std::exception& ex)
 	{
@@ -288,7 +271,7 @@ bool test4() // =
 
 	try
 	{
-		rectangueM1 = squareM1;
+		M1 = M3;
 	}
 	catch (const std::exception& ex)
 	{
@@ -297,7 +280,7 @@ bool test4() // =
 
 	try
 	{
-		rectangueM1 = squareM2;
+		M3 = M1;
 	}
 	catch (const std::exception& ex)
 	{
@@ -311,7 +294,7 @@ bool exceptionTest()
 {
 	int counter = 0;
 
-	Matrix m1(2), m2(4);
+	SquareMatrix m1(2), m2(4);
 
 	RectangularMatrix M1(2, 4), M2(4, 2), M3(2, 4);
 

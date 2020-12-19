@@ -1,10 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "matrix.h"
 
-static int counter = 0;
-
-Matrix::Matrix() {};
-
 Matrix::Matrix(int size)
 {
 	this->rows = size;
@@ -13,9 +9,17 @@ Matrix::Matrix(int size)
 	FillMatrix();
 };
 
+Matrix::Matrix(const int X, const int Y)
+{
+	this->rows = X;
+	this->cols = Y;
+	CreateMatrix(this->rows, this->cols);
+	FillMatrix();
+};
+
 Matrix::Matrix(const Matrix& cc)
 {
-	if (cc.rows < 0 && cc.cols < 0)
+	if (cc.rows > 0 && cc.cols > 0)
 	{
 		this->rows = cc.rows;
 		this->cols = cc.cols;
@@ -24,9 +28,6 @@ Matrix::Matrix(const Matrix& cc)
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
 				matrix[i][j] = cc.matrix[i][j];
-	}
-	else {
-		throw (std::exception("(Copy constructor) size error"));
 	}
 };
 
@@ -98,79 +99,6 @@ void Matrix::ReadFromBinFile(std::fstream& file) // Read from binary file
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++)
 			file.read((char*)&(matrix[i][j]), sizeof(**matrix));
-}
-
-char* Matrix::ToString()
-{
-	if (rows != 0 && cols != 0)
-	{
-		//cout << "This is virtual function" << endl;
-		char* buff = new char[128];
-		buff[0] = '\0';
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				char subBuff[16] = "";
-				_itoa(matrix[i][j], subBuff, 10);
-				strcat(subBuff, "\t");
-				strcat(buff, subBuff);
-			}
-			strcat(buff, "\n");
-		}
-		return buff;
-	}
-}
-
-Matrix& Matrix::operator=(const Matrix& second)
-{
-	if (this->cols == second.cols &&
-		this->rows == second.rows &&
-		this->cols > 0 && this->rows > 0 &&
-		second.cols > 0 && second.rows > 0)
-	{
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < cols; j++)
-				this->matrix[i][j] = second.matrix[i][j];
-		return *this;
-	}
-	else {
-		throw (std::exception("(=) size error"));
-	}
-}
-
-Matrix& operator+(Matrix& first, const Matrix& second)
-{
-	if ((first.cols == second.cols) &&
-		(first.rows == second.rows) &&
-		(first.cols > 0 && first.rows > 0) &&
-		(second.cols > 0 && second.rows > 0))
-	{
-		for (int i = 0; i < first.rows; i++)
-			for (int j = 0; j < first.cols; j++)
-				first.matrix[i][j] += second.matrix[i][j];
-		return *&first;
-	}
-	else {
-		throw (std::exception("(+) size error"));
-	}
-}
-
-Matrix& operator-(Matrix& first, const Matrix& second)
-{
-	if ((first.cols == second.cols) &&
-		(first.rows == second.rows) &&
-		(first.cols > 0 && first.rows > 0) &&
-		(second.cols > 0 && second.rows > 0))
-	{
-		for (int i = 0; i < first.rows; i++)
-			for (int j = 0; j < first.cols; j++)
-				first.matrix[i][j] -= second.matrix[i][j];
-		return *&first;
-	}
-	else {
-		throw (std::exception("(-) size error"));
-	}
 }
 
 void Matrix::CreateMatrix(const int rows, const int cols)
