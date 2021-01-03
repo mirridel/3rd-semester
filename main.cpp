@@ -4,11 +4,15 @@
 #include <ctime>
 #include <iterator>
 #include "matrix.h"
+#include "test.hpp"
 using namespace std;
 
+void test();
 
 int main() {
     setlocale(LC_ALL, "rus");
+
+    test();
 
     unsigned start_t, end_t;
     unsigned int n = 1024;
@@ -141,4 +145,20 @@ int main() {
 
     system("pause");
     return 0;
+}
+
+void test()
+{
+    if (test1())
+        cout << "Test #1 passed..." << endl;
+    else
+        cout << "Test #1 failed..." << endl;
+    if (test2())
+        cout << "Test #2 passed..." << endl;
+    else
+        cout << "Test #2 failed..." << endl;
+    if (test3())
+        cout << "Test #3 passed..." << endl;
+    else
+        cout << "Test #3 failed..." << endl;
 }
