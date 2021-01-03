@@ -11,6 +11,7 @@ class Matrix
 {
 public:
 
+	Matrix();
 	Matrix(int size); // Конструктор
 	Matrix(const Matrix &other); // Конструктор копирования
 	~Matrix(); // Деструктор
@@ -24,6 +25,9 @@ public:
 	int GetData(int x, int y); // Геттер, который позволяет получить данные из одной ячейки
 
 	char* toString(); // Выводим матрицу в char
+
+	int* operator[](int i) { return matrix[i]; };
+	int*& operator[](int i) const { return matrix[i]; };
 
 	static bool TransposeMatrix(Matrix &other); // Транспонирование матрицы
 	bool AdditionMatrix(Matrix &other); // Сложение матриц

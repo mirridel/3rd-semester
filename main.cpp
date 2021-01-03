@@ -1,8 +1,13 @@
 ﻿#include "pch.h"
+#include "test.hpp"
 #include <iostream>
+
+void test();
 
 void main()
 {
+    test();
+
     int a = 1;
     int b = 2;
     int c = 3;
@@ -37,4 +42,23 @@ void main()
     mL.AddTail(m3);
     mL.AddTail(m4);
     mL.Print();
+}
+
+void test()
+{
+    // matrix
+    if (test1())
+        cout << "Test #1 passed..." << endl;
+    else
+        cout << "Test #1 failed..." << endl;
+    // int
+    if (test2())
+        cout << "Test #2 passed..." << endl;
+    else
+        cout << "Test #2 failed..." << endl;
+    // double
+    if (test3())
+        cout << "Test #3 passed..." << endl;
+    else
+        cout << "Test #3 failed..." << endl;
 }

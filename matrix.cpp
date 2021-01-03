@@ -2,116 +2,129 @@
 
 #include "matrix.h"
 
-	Matrix::Matrix(int size)
+Matrix::Matrix()
+{
+	this->size = 2;
+
+	matrix = new int* [size];
+	for (int i = 0; i < size; i++)
+		matrix[i] = new int[size];
+
+	for (int i = 0; i < size; i++)
+		for (int j = 0; j < size; j++)
+			matrix[i][j] = rand() % 10;
+};
+
+Matrix::Matrix(int size)
+{
+	if (size > 0)
 	{
-		if (size > 0)
-		{
-			this->size = size;
+		this->size = size;
 
-			matrix = new int* [size];
-			for (int i = 0; i < size; i++)
-				matrix[i] = new int[size];
+		matrix = new int* [size];
+		for (int i = 0; i < size; i++)
+			matrix[i] = new int[size];
 
-			for (int i = 0; i < size; i++)
-				for (int j = 0; j < size; j++)
-					matrix[i][j] = rand() % 10;
-		}
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				matrix[i][j] = rand() % 10;
 	}
+}
 
-	Matrix::Matrix(const Matrix &other)
+Matrix::Matrix(const Matrix& other)
+{
+	if (other.size > 0)
 	{
-		if ( other.size > 0 )
-		{
-			this->size = other.size;
+		this->size = other.size;
 
-			this->matrix = new int* [size];
-			for (int i = 0; i < size; i++)
-				matrix[i] = new int[size];
+		this->matrix = new int* [size];
+		for (int i = 0; i < size; i++)
+			matrix[i] = new int[size];
 
-			for (int i = 0; i < size; i++)
-				for (int j = 0; j < size; j++)
-					matrix[i][j] = other.matrix[i][j];
-		}
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				matrix[i][j] = other.matrix[i][j];
 	}
+}
 
-	std::ostream& operator << (std::ostream& os, Matrix& cc)
+std::ostream& operator << (std::ostream& os, Matrix& cc)
+{
+	for (int i = 0; i < cc.size; i++)
 	{
-		for (int i = 0; i < cc.size; i++)
-		{
-			for (int j = 0; j < cc.size; j++)
-				os << cc.matrix[i][j] << "\t";
-			os << endl;
-		}
-		return os;
-	};
+		for (int j = 0; j < cc.size; j++)
+			os << cc.matrix[i][j] << "\t";
+		os << endl;
+	}
+	return os;
+};
 
-	std::fstream& operator << (std::fstream& ofs, Matrix& cc) {
+std::fstream& operator << (std::fstream& ofs, Matrix& cc) {
 
-		ofs.clear();
+	ofs.clear();
 
-		ofs.seekg(0, std::ios_base::beg);
+	ofs.seekg(0, std::ios_base::beg);
 
-		for (int i = 0; i < cc.size; i++)
-		{
-			for (int j = 0; j < cc.size; j++)
-				ofs << cc.matrix[i][j] << "\t";
-			ofs << endl;
-		}
+	for (int i = 0; i < cc.size; i++)
+	{
+		for (int j = 0; j < cc.size; j++)
+			ofs << cc.matrix[i][j] << "\t";
 		ofs << endl;
-		return ofs;
-	};
-
-	std::istream& operator >> (std::istream& is, Matrix& cc)
-	{
-		for (int i = 0; i < cc.size; i++)
-			for (int j = 0; j < cc.size; j++)
-				is >> cc.matrix[i][j];
-		return is;
 	}
+	ofs << endl;
+	return ofs;
+};
 
-	std::fstream& operator >> (std::fstream& ifs, Matrix& cc)
+std::istream& operator >> (std::istream& is, Matrix& cc)
+{
+	for (int i = 0; i < cc.size; i++)
+		for (int j = 0; j < cc.size; j++)
+			is >> cc.matrix[i][j];
+	return is;
+};
+
+std::fstream& operator >> (std::fstream& ifs, Matrix& cc)
+{
+	ifs.seekg(0, std::ios_base::beg);
+
+	for (int i = 0; i < cc.size; i++)
+		for (int j = 0; j < cc.size; j++)
+			ifs >> cc.matrix[i][j];
+	return ifs;
+};
+
+char* Matrix::toString()
+{
+	if (this->size != 0)
 	{
-		ifs.seekg(0, std::ios_base::beg);
+		char* buff = new char[128];
 
-		for (int i = 0; i < cc.size; i++)
-			for (int j = 0; j < cc.size; j++)
-				ifs >> cc.matrix[i][j];
-		return ifs;
-	}
+		buff[0] = '\0';
 
-	char* Matrix::toString()
-	{
-		if (this->size != 0)
+		for (int i = 0; i < size; i++)
 		{
-			char* buff = new char [128];
-
-			buff[0] = '\0';
-
-			for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
 			{
-				for (int j = 0; j < size; j++)
-				{
-					char subBuff[16] = "";
-					_itoa(matrix[i][j], subBuff, 10);
-					strcat(subBuff, "\t");
-					strcat(buff, subBuff);
-				}
-				strcat(buff, "\n");
+				char subBuff[16] = "";
+				_itoa(matrix[i][j], subBuff, 10);
+				strcat(subBuff, "\t");
+				strcat(buff, subBuff);
 			}
-
-			return buff;
+			strcat(buff, "\n");
 		}
+
+		return buff;
 	}
+};
 
-	bool Matrix::SetData(int x, int y, int data)
-	{
-		std::cout << "A["<< x <<","<< y <<"] = "<< data << std::endl;
+bool Matrix::SetData(int x, int y, int data)
+{
+	std::cout << "A[" << x << "," << y << "] = " << data << std::endl;
 
-		if (( x > 0 && x < size) && ( y > 0 && y < size ))
-			this->matrix[x][y] = data;
+	if ((x > 0 && x < size) && (y > 0 && y < size))
+		this->matrix[x][y] = data;
 
-		return true;
-	}
+	return true;
+};
 
 	int Matrix::GetData(int x, int y)
 	{

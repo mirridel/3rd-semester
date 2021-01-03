@@ -23,8 +23,8 @@ List<DataT>::List(const List& L)
 template <class DataT>
 List<DataT>::~List()
 {
-    while (Count != 0)
-        Del(1);
+    //while (Count != 0)
+        //Del(1);
 }
 
 template<class DataT>
